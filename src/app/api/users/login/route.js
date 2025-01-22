@@ -17,10 +17,10 @@ export async function POST(request) {
         success: false }
       );
     }
-    if (!user.isVerified) {
-      return NextResponse.json({ error: "Verify Your Email First",
-      success: false });
-    }
+    // if (!user.isVerified) {
+    //   return NextResponse.json({ error: "Verify Your Email First",
+    //   success: false });
+    // }
     // check if password is correct
     const validPassword = await bcryptjs.compare(password, user.password);
     if (!validPassword) {

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import Loading from "@/components/Loading";
@@ -34,7 +34,6 @@ const page = () => {
   }, []);
   return (
     <div className="flex justify-center items-center gap-24 h-screen">
-      <Toaster />
       <Card color="transparent" shadow={false}>
         <Typography variant="h5" color="blue-gray">
           Reset Password

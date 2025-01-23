@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, "Please provide a username"],
-        unique: true,
+        required: [true, "Please provide a username"]
     },
     email: {
         type: String,
@@ -27,6 +26,22 @@ const userSchema = new mongoose.Schema({
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,
     verifyTokenExpiry: Date,
+    membership: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Membership', // Links to the Membership collection
+        default: null,
+      },
+      rentals: [
+        {
+          bookId: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' },
+          rentalDuration: String, // e.g., "3 days" or "2 hours"
+          rentedAt: { type: Date, default: Date.now },
+        },
+      ],
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
 })
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);

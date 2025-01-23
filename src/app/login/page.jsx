@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useFormik } from "formik";
 import { schema } from "@/Schema/Login";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Loading from "@/components/Loading";
 import axios from "axios";
 
@@ -39,7 +39,6 @@ const Page = () => {
   return (
     <>
       <div className="flex justify-center items-center gap-24 h-screen">
-        <Toaster />
         <Card color="transparent" shadow={false}>
           <Typography variant="h5" color="blue-gray">
             Log In

@@ -6,9 +6,9 @@ export function middleware(request) {
     path === "/login" ||
     path === "/signup" ||
     path === "/verifyemail" ||
-    path === "/resetPass";
+    path === "/resetPass"|| path==="/";
   const token = request.cookies.get("token")?.value || "";
-  if (isPublicPath && token) {
+  if (isPublicPath && token && path !== "/") {
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
   if (!isPublicPath && !token) {

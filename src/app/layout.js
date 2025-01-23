@@ -1,19 +1,21 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { StickyNavbar } from "@/components/Navbar";
+import { Sidebar } from "@/components/Sidebar";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Points System",
-  description: "Created by Yash Kumar Singh",
+  title: "Library-Cafe",
+  description: "Created by Yash Kumar Singh and Shiwangi Upadhyay",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
-        <StickyNavbar />
+        <Toaster/>
+        <Sidebar/>
         {children}
       </body>
     </html>

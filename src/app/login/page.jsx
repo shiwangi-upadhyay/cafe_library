@@ -8,10 +8,13 @@ import { schema } from "@/Schema/Login";
 import toast from "react-hot-toast";
 import Loading from "@/components/Loading";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { changeLoggedIn } from "@/redux/slices/user";
 
 const Page = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   // Form Handling using formik.
   const form = useRef();
   const { values, handleChange, handleSubmit, errors, touched, handleBlur } =
@@ -25,6 +28,7 @@ const Page = () => {
         setLoading(true);
         const response = await axios.post("/api/users/login", values); 
         if (response.data.success) {
+          dispatch(changeLoggedIn(true));
           action.resetForm();
           setLoading(false);
           toast.success(response.data.message);

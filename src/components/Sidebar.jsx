@@ -35,30 +35,46 @@ import {
   CubeTransparentIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
-
+import { useLazyGetUserDataQuery } from "@/redux/services/userApi";
+import { useDispatch,useSelector } from "react-redux";
+import { changeLoggedIn } from "@/redux/slices/user";
 export function Sidebar() {
-  const [login, setLogin] = React.useState(false);
+  const justLoggedIn = useSelector((state) => state.user.justLoggedIn);
+  const dispatch = useDispatch();
   const path = usePathname();
   const [pathname, setPathname] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-  // Fetching User Data
-  const fetchUser = async () => {
-    const res = await axios.get("/api/users/userData");
-    if (res.data.success) {
-      setLogin(true);
-    } else {
-      setLogin(false);
-    }
-  };
+  const [trigger,{ data}] = useLazyGetUserDataQuery();
+  // Setting Pathname on navigation change
   useEffect(() => {
-    fetchUser();
     setPathname(window.location.pathname);
   }, [path]);
+  // Checking isUserJustLoggedIn
+  useEffect(() => {
+    trigger();
+    if (justLoggedIn) {
+      dispatch(changeLoggedIn(false));
+    }
+  }, [justLoggedIn]);
+  //Handeling Logout
+  const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/users/logout");
+      const res = await response.json();
+      if (res.success) {
+        trigger();
+        router.push("/");
+        toast.success(res.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   // Accordation opening function
   // const [open, setOpen] = React.useState(0);
   // const handleOpen = (value) => {
@@ -67,20 +83,6 @@ export function Sidebar() {
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
-  //Handeling Logout
-  const router = useRouter();
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("/api/users/logout");
-      const res = await response.json();
-      if (res.success) {
-        router.push("/");
-        toast.success(res.message);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <>
       <div className="w-full flex items-center px-2 py-2 lg:px-4 justify-between rounded-b-xxl ">
@@ -135,12 +137,12 @@ export function Sidebar() {
                 Home
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/library" && "bg-[#f0f2f4]"}`} href="/library">
+            <Link className={`${pathname === "/cafe" && "bg-[#f0f2f4]"}`} href="/cafe">
               <ListItem>
                 <ListItemPrefix>
                   <IoLibrarySharp className="text-xl" />
                 </ListItemPrefix>
-                Library
+                Cafe
               </ListItem>
             </Link>
             <Link className={`${pathname === "/bookings" && "bg-[#f0f2f4]"}`} href="/bookings">
@@ -248,12 +250,12 @@ export function Sidebar() {
                 </List>
               </AccordionBody>
             </Accordion> */}
-            <ListItem onClick={() => handleLogout()}>
+            {data?.success&&<ListItem onClick={() => handleLogout()}>
               <ListItemPrefix>
                 <PowerIcon className="h-5 w-5" />
               </ListItemPrefix>
               Log Out
-            </ListItem>
+            </ListItem>}
           </List>
           {/* Alert Message */}
           <Alert

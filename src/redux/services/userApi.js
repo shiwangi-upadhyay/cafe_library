@@ -1,12 +1,12 @@
-// services/api.js
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const userApi = createApi({
-  reducerPath: 'userApi', // Automatically added to your Redux store
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/users' }), // API base URL
   endpoints: (builder) => ({
     getUserData: builder.query({
       query: () => '/userData', // API endpoint
+      
     }),
     addBook: builder.mutation({
       query: (newBook) => ({
@@ -18,4 +18,4 @@ export const userApi = createApi({
   }),
 });
 
-export const { useGetUserDataQuery, useAddBookMutation } = userApi;
+export const { useLazyGetUserDataQuery, useAddBookMutation } = userApi;

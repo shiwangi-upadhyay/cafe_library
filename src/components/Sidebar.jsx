@@ -83,7 +83,7 @@ export function Sidebar() {
   };
   return (
     <>
-      <div className="w-full flex items-center px-2 py-2 lg:px-4 justify-between">
+      <div className="w-full flex items-center px-2 py-2 lg:px-4 justify-between rounded-b-xxl ">
         <div className="flex items-center gap-4">
           <img
             src="https://docs.material-tailwind.com/img/logo-ct-dark.png"

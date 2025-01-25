@@ -6,7 +6,6 @@ export const userApi = createApi({
   endpoints: (builder) => ({
     getUserData: builder.query({
       query: () => '/userData', // API endpoint
-      
     }),
     addBook: builder.mutation({
       query: (newBook) => ({

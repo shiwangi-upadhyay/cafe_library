@@ -9,6 +9,7 @@ import {
     } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
 
 export default function Menu() {
@@ -25,12 +26,6 @@ export default function Menu() {
     useEffect(() => {
         fetchProducts();
     }, []);
-
-    // Converting Sanity Image Coded Content to Url
-        //     const builder = imageUrlBuilder(client);
-        // function urlFor(source) {
-        //     return builder.image(source);
-        // }
     
     return (
         <section className="p-8">
@@ -44,11 +39,11 @@ export default function Menu() {
             floated={false}
             className="m-0 w-full lg:w-2/5 shrink-0 rounded-lg"
             >
-            {/*<img
-                src={urlFor(card.image).url()}
+            <img
+                src={urlFor(card.coverImage).url()}
                 alt="card-image"
                 className="h-full w-full object-cover"
-            />*/}
+            />
             </CardHeader>
             <CardBody className=" flex flex-col justify-between p-4">
                 <div className="mb-3 flex items-center justify-between">

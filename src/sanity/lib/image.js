@@ -1,12 +1,9 @@
-import createImageUrlBuilder from '@sanity/image-url'
+// src/lib/sanityImage.js
+import imageUrlBuilder from '@sanity/image-url';
+import { client } from './client'; // Adjust the path to your Sanity client setup
 
-import { dataset, projectId } from '../env'
+const builder = imageUrlBuilder(client);
 
-const imageBuilder = createImageUrlBuilder({
-  projectId: projectId || '',
-  dataset: dataset || '',
-})
-
-export const urlForImage = (source) => {
-  return imageBuilder?.image(source).auto('format').fit('max').url()
+export function urlFor(source) {
+  return builder.image(source);
 }

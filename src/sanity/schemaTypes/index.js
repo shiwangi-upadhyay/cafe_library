@@ -1,5 +1,8 @@
-import {booksType} from './booksType'
+import booksType from './booksType';
+import franchiseType from './franchiseType';
 
-export const schema = {
-    types:[booksType],
-}
+export const schema ={types: [
+    booksType,
+    franchiseType,
+  // Add any other schemas here
+]};

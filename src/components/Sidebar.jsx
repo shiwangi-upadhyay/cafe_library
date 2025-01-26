@@ -20,7 +20,7 @@ import { FaChartPie } from "react-icons/fa";
 import { CgStudio } from "react-icons/cg";
 import { GrCafeteria } from "react-icons/gr";
 import { RiAdminLine } from "react-icons/ri";
-import { IoLibrarySharp,IoLogInSharp  } from "react-icons/io5";
+import { IoLibrarySharp, IoLogInSharp } from "react-icons/io5";
 import { MdEmojiEvents, MdKey } from "react-icons/md";
 import { PiHandCoinsFill } from "react-icons/pi";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
@@ -31,10 +31,8 @@ import {
   UserCircleIcon,
   PowerIcon,
   Bars3Icon,
-  ShoppingBagIcon,
 } from "@heroicons/react/24/solid";
 import {
-  ChevronRightIcon,
   ChevronDownIcon,
   CubeTransparentIcon,
   XMarkIcon,
@@ -52,7 +50,7 @@ export function Sidebar() {
   const [pathname, setPathname] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-  const [trigger, { data }] = useLazyGetUserDataQuery();
+  const [trigger, { data, isLoading }] = useLazyGetUserDataQuery();
   // Setting Pathname on navigation change
   useEffect(() => {
     setPathname(window.location.pathname);
@@ -253,19 +251,24 @@ export function Sidebar() {
                 />
               }
             >
-              {data?.user?.isAdmin&&<ListItem className="p-0" selected={open === 1}>
-                <AccordionHeader
-                  onClick={() => handleOpen(1)}
-                  className="border-b-0 p-3"
-                >
-                  <ListItemPrefix>
-                    <RiAdminLine className="text-xl" />
-                  </ListItemPrefix>
-                  <Typography color="blue-gray" className="mr-auto font-normal">
-                    Admin
-                  </Typography>
-                </AccordionHeader>
-              </ListItem>}
+              {data?.user?.isAdmin && (
+                <ListItem className="p-0" selected={open === 1}>
+                  <AccordionHeader
+                    onClick={() => handleOpen(1)}
+                    className="border-b-0 p-3"
+                  >
+                    <ListItemPrefix>
+                      <RiAdminLine className="text-xl" />
+                    </ListItemPrefix>
+                    <Typography
+                      color="blue-gray"
+                      className="mr-auto font-normal"
+                    >
+                      Admin
+                    </Typography>
+                  </AccordionHeader>
+                </ListItem>
+              )}
               <AccordionBody className="py-1">
                 <List className="p-0">
                   <Link href="/admin">
@@ -277,7 +280,7 @@ export function Sidebar() {
                     </ListItem>
                   </Link>
                   <Link href="/admin/studio">
-                  <ListItem>
+                    <ListItem>
                       <ListItemPrefix>
                         <CgStudio className="text-xl" />
                       </ListItemPrefix>
@@ -287,24 +290,29 @@ export function Sidebar() {
                 </List>
               </AccordionBody>
             </Accordion>
-            {data?.success ? (
-              <ListItem onClick={() => handleLogout()}>
-                <ListItemPrefix>
-                  <PowerIcon className="h-5 w-5" />
-                </ListItemPrefix>
-                Log Out
-              </ListItem>
-            ):<Link
-            className={`${pathname === "/login" && "bg-[#f0f2f4]"}`}
-            href="/login"
-          >
-            <ListItem>
-              <ListItemPrefix>
-                <IoLogInSharp className="text-3xl" />
-              </ListItemPrefix>
-              Login
-            </ListItem>
-          </Link>}
+            {/* Checking user is loged in or not */}
+            {!isLoading&&<div>
+              {data?.success ? (
+                <ListItem onClick={() => handleLogout()}>
+                  <ListItemPrefix>
+                    <PowerIcon className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Log Out
+                </ListItem>
+              ) : (
+                <Link
+                  className={`${pathname === "/login" && "bg-[#f0f2f4]"}`}
+                  href="/login"
+                >
+                  <ListItem>
+                    <ListItemPrefix>
+                      <IoLogInSharp className="text-3xl" />
+                    </ListItemPrefix>
+                    Login
+                  </ListItem>
+                </Link>
+              )}
+            </div>}
           </List>
           {/* Alert Message */}
           <Alert

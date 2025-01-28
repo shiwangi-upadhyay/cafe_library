@@ -6,7 +6,7 @@ export const user = createSlice({
   initialState:{
     value: 0,
     justLoggedIn: false,
-    franchiseId: undefined,
+    franchiseId: "",
   },
   reducers: {
     changeLoggedIn: (state,action) => {

@@ -21,7 +21,8 @@ import { useSelector } from "react-redux";
 
 
 export default function Menu() {
-   // Fetching Products from sanity
+    const franchiseId = useSelector((state) => state.user.franchiseId);
+    // Fetching Products from sanity
     const [products, setProducts] = useState([]);
     const [isProFetched, setIsProFetched] = useState(false);
     const [open, setOpen] = React.useState(false);
@@ -32,15 +33,10 @@ export default function Menu() {
         const res = await client.fetch(`*[_type == "booksType"]`);
         setProducts(res);
         setIsProFetched(true);
-
-    
     };
     useEffect(() => {
         fetchProducts();
     }, []);
-
-    const franchiseId = useSelector((state) => state.user.franchiseId);
-    
     return (
         <section className="p-8">
         <h2 className="text-2xl font-bold text-center mb-8">Our Menu</h2>
@@ -129,7 +125,7 @@ export default function Menu() {
                         </svg>
                         </span>
                     </Tooltip>
-                    <Tooltip content={card.franchiseStock.filter((item) => item.name._ref == franchiseId).stock}>
+                    <Tooltip content={card?.franchiseStock?.filter((item) => item.name._ref == franchiseId)[0]?.stock}>
                         <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

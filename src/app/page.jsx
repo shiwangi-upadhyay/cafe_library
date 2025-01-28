@@ -1,10 +1,33 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
+import { Select, Option } from "@material-tailwind/react";
+
+import { client } from "@/sanity/lib/client";
 import SearchBar from "@/components/SearchBar";
 import Menu from "@/components/Menu";
+import { useDispatch } from "react-redux";
+import { setFranchiseId } from "@/redux/slices/user";
 
 export default function Home() {
+
+  const[franchises,  setFranchises] = useState([]);
+  
+
+  //Fetch franchises data from sanity
+  const  fetchFranchiseData = async() =>{
+    const res = await client.fetch(`*[_type == "franchiseType"]`);
+            setFranchises(res);
+            console.log(res);
+    };
+
+  // Fetch franchise data 
+    useEffect(() => {
+      fetchFranchiseData();
+    }, []);
+
+    const dispatch = useDispatch();
+        
   return (
     <>
       <div className="min-h-[80vh] flex flex-col gap-5 items-center justify-center  overflow-hidden ">
@@ -31,8 +54,21 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="w-full h-[55px] flex justify-center mt-8 ">
+        <div className="w-full h-[55px] flex justify-center items-center gap-2 mt-8 flex-col md:flex-row ">
           <SearchBar />
+          <div className="w-50">          
+            <Select label="Select Location">
+            {franchises.map((franchise)=>{
+              return(
+                <Option key={franchise._id} 
+                onClick={()=>{
+                  dispatch(setFranchiseId(franchise._id));
+                }}>{franchise.name}</Option>
+              );
+            })}
+            </Select>
+          </div>
+
         </div>
       </div>
       <Menu />

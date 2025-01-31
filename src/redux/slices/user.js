@@ -6,6 +6,7 @@ export const user = createSlice({
   initialState:{
     value: 0,
     justLoggedIn: false,
+    franchiseId: "",
   },
   reducers: {
     changeLoggedIn: (state,action) => {
@@ -17,8 +18,12 @@ export const user = createSlice({
     incrementByAmount: (state, action) => {
       state.value += action.payload
     },
+    setFranchiseId: (state, action) => {
+      state.franchiseId = action.payload;
+    
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { changeLoggedIn, decrement, incrementByAmount } = user.actions;
+export const { changeLoggedIn, decrement, incrementByAmount, setFranchiseId } = user.actions;

@@ -16,8 +16,11 @@ import {
   Card,
 } from "@material-tailwind/react";
 import { TbVip } from "react-icons/tb";
+import { FaChartPie } from "react-icons/fa";
+import { CgStudio } from "react-icons/cg";
 import { GrCafeteria } from "react-icons/gr";
-import { IoLibrarySharp } from "react-icons/io5";
+import { RiAdminLine } from "react-icons/ri";
+import { IoLibrarySharp, IoLogInSharp } from "react-icons/io5";
 import { MdEmojiEvents, MdKey } from "react-icons/md";
 import { PiHandCoinsFill } from "react-icons/pi";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
@@ -30,7 +33,6 @@ import {
   Bars3Icon,
 } from "@heroicons/react/24/solid";
 import {
-  ChevronRightIcon,
   ChevronDownIcon,
   CubeTransparentIcon,
   XMarkIcon,
@@ -39,7 +41,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useLazyGetUserDataQuery } from "@/redux/services/userApi";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeLoggedIn } from "@/redux/slices/user";
 export function Sidebar() {
   const justLoggedIn = useSelector((state) => state.user.justLoggedIn);
@@ -48,7 +50,7 @@ export function Sidebar() {
   const [pathname, setPathname] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-  const [trigger,{ data}] = useLazyGetUserDataQuery();
+  const [trigger, { data, isLoading }] = useLazyGetUserDataQuery();
   // Setting Pathname on navigation change
   useEffect(() => {
     setPathname(window.location.pathname);
@@ -76,10 +78,10 @@ export function Sidebar() {
     }
   };
   // Accordation opening function
-  // const [open, setOpen] = React.useState(0);
-  // const handleOpen = (value) => {
-  //   setOpen(open === value ? 0 : value);
-  // };
+  const [open, setOpen] = React.useState(0);
+  const handleOpen = (value) => {
+    setOpen(open === value ? 0 : value);
+  };
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
@@ -104,12 +106,14 @@ export function Sidebar() {
               <Bars3Icon className="h-8 w-8 stroke-2" />
             )}
           </IconButton>
-          {pathname!=="/login"&&pathname!=="/signup"&&<Link
-            href="/profile"
-            className="cursor-pointer hover:scale-110 duration-150"
-          >
-            <UserCircleIcon className="aspect-square w-8 lg:w-10" />
-          </Link>}
+          {pathname !== "/login" && pathname !== "/signup" && (
+            <Link
+              href="/profile"
+              className="cursor-pointer hover:scale-110 duration-150"
+            >
+              <UserCircleIcon className="aspect-square w-8 lg:w-10" />
+            </Link>
+          )}
         </div>
       </div>
       <Drawer open={isDrawerOpen} onClose={closeDrawer}>
@@ -137,7 +141,10 @@ export function Sidebar() {
                 Home
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/cafe" && "bg-[#f0f2f4]"}`} href="/cafe">
+            <Link
+              className={`${pathname === "/cafe" && "bg-[#f0f2f4]"}`}
+              href="/cafe"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <IoLibrarySharp className="text-xl" />
@@ -145,7 +152,10 @@ export function Sidebar() {
                 Cafe
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/bookings" && "bg-[#f0f2f4]"}`} href="/bookings">
+            <Link
+              className={`${pathname === "/bookings" && "bg-[#f0f2f4]"}`}
+              href="/bookings"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <SlCalender className="text-xl" />
@@ -153,7 +163,10 @@ export function Sidebar() {
                 Bookings
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/rentals" && "bg-[#f0f2f4]"}`} href="/rentals">
+            <Link
+              className={`${pathname === "/rentals" && "bg-[#f0f2f4]"}`}
+              href="/rentals"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <MdKey className="text-xl" />
@@ -161,7 +174,10 @@ export function Sidebar() {
                 Rentals
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/membership" && "bg-[#f0f2f4]"}`} href="/membership">
+            <Link
+              className={`${pathname === "/membership" && "bg-[#f0f2f4]"}`}
+              href="/membership"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <TbVip className="text-xl" />
@@ -169,7 +185,10 @@ export function Sidebar() {
                 Membership
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/events" && "bg-[#f0f2f4]"}`} href="/events">
+            <Link
+              className={`${pathname === "/events" && "bg-[#f0f2f4]"}`}
+              href="/events"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <MdEmojiEvents className="text-xl" />
@@ -177,7 +196,10 @@ export function Sidebar() {
                 Events
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/franchise" && "bg-[#f0f2f4]"}`} href="/franchise">
+            <Link
+              className={`${pathname === "/franchise" && "bg-[#f0f2f4]"}`}
+              href="/franchise"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <PiHandCoinsFill className="text-xl" />
@@ -185,7 +207,10 @@ export function Sidebar() {
                 Franchise
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/about" && "bg-[#f0f2f4]"}`} href="/about">
+            <Link
+              className={`${pathname === "/about" && "bg-[#f0f2f4]"}`}
+              href="/about"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <FcAbout className="text-xl text-black" />
@@ -193,7 +218,10 @@ export function Sidebar() {
                 About
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/blog" && "bg-[#f0f2f4]"}`} href="/blog">
+            <Link
+              className={`${pathname === "/blog" && "bg-[#f0f2f4]"}`}
+              href="/blog"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <SiMicrodotblog className="text-xl" />
@@ -201,7 +229,10 @@ export function Sidebar() {
                 Blog
               </ListItem>
             </Link>
-            <Link className={`${pathname === "/contact" && "bg-[#f0f2f4]"}`} href="/contact">
+            <Link
+              className={`${pathname === "/contact" && "bg-[#f0f2f4]"}`}
+              href="/contact"
+            >
               <ListItem>
                 <ListItemPrefix>
                   <BsFillTelephoneOutboundFill className="text-xl" />
@@ -209,53 +240,79 @@ export function Sidebar() {
                 Contact US
               </ListItem>
             </Link>
-            {/* <Accordion
-              open={open === 2}
+            <Accordion
+              open={open === 1}
               icon={
                 <ChevronDownIcon
                   strokeWidth={2.5}
                   className={`mx-auto h-4 w-4 transition-transform ${
-                    open === 2 ? "rotate-180" : ""
+                    open === 1 ? "rotate-180" : ""
                   }`}
                 />
               }
             >
-              <ListItem className="p-0" selected={open === 2}>
-                <AccordionHeader
-                  onClick={() => handleOpen(2)}
-                  className="border-b-0 p-3"
-                >
-                  <ListItemPrefix>
-                    <ShoppingBagIcon className="h-5 w-5" />
-                  </ListItemPrefix>
-                  <Typography color="blue-gray" className="mr-auto font-normal">
-                    E-Commerce
-                  </Typography>
-                </AccordionHeader>
-              </ListItem>
+              {data?.user?.isAdmin && (
+                <ListItem className="p-0" selected={open === 1}>
+                  <AccordionHeader
+                    onClick={() => handleOpen(1)}
+                    className="border-b-0 p-3"
+                  >
+                    <ListItemPrefix>
+                      <RiAdminLine className="text-xl" />
+                    </ListItemPrefix>
+                    <Typography
+                      color="blue-gray"
+                      className="mr-auto font-normal"
+                    >
+                      Admin
+                    </Typography>
+                  </AccordionHeader>
+                </ListItem>
+              )}
               <AccordionBody className="py-1">
                 <List className="p-0">
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    Orders
-                  </ListItem>
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                    </ListItemPrefix>
-                    Products
-                  </ListItem>
+                  <Link href="/admin">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <FaChartPie className="text-xl" />
+                      </ListItemPrefix>
+                      Panel
+                    </ListItem>
+                  </Link>
+                  <Link href="/admin/studio">
+                    <ListItem>
+                      <ListItemPrefix>
+                        <CgStudio className="text-xl" />
+                      </ListItemPrefix>
+                      CMS Studio
+                    </ListItem>
+                  </Link>
                 </List>
               </AccordionBody>
-            </Accordion> */}
-            {data?.success&&<ListItem onClick={() => handleLogout()}>
-              <ListItemPrefix>
-                <PowerIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Log Out
-            </ListItem>}
+            </Accordion>
+            {/* Checking user is loged in or not */}
+            {!isLoading&&<div>
+              {data?.success ? (
+                <ListItem onClick={() => handleLogout()}>
+                  <ListItemPrefix>
+                    <PowerIcon className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Log Out
+                </ListItem>
+              ) : (
+                <Link
+                  className={`${pathname === "/login" && "bg-[#f0f2f4]"}`}
+                  href="/login"
+                >
+                  <ListItem>
+                    <ListItemPrefix>
+                      <IoLogInSharp className="text-3xl" />
+                    </ListItemPrefix>
+                    Login
+                  </ListItem>
+                </Link>
+              )}
+            </div>}
           </List>
           {/* Alert Message */}
           <Alert

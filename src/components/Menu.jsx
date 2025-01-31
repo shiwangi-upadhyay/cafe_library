@@ -87,6 +87,9 @@ export default function Menu() {
             <Typography color="gray" className="font-normal text-sm lg:text-base line-clamp-3 mb-4">
                 {card.description}
             </Typography>
+            <Typography variant="h5" color="blue-gray" className="font-semibold mt-2">
+                ₹{card.price}
+            </Typography>
             {/* Borrow Count and Publish Year */}
             <div className="flex justify-between items-center mt-5">
                 <div className="inline-flex flex-wrap items-center gap-3">
@@ -125,7 +128,12 @@ export default function Menu() {
                         </svg>
                         </span>
                     </Tooltip>
-                    <Tooltip content={card?.franchiseStock?.filter((item) => item.name._ref == franchiseId)[0]?.stock}>
+                    <Tooltip content={ 
+                        card?.franchiseStock?.filter((item) => 
+                            item.name._ref === franchiseId)[0]?.stock === undefined
+                            ?"Please select your location first.": 
+                            card?.franchiseStock?.filter((item) =>
+                            item.name._ref === franchiseId)[0]?.stock}>
                         <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -163,10 +171,10 @@ export default function Menu() {
                     <Dialog size="sm" open={open} handler={handleOpen} className="p-4">
                     <DialogHeader className="relative m-0 block">
                     <Typography variant="h4" color="blue-gray">
-                        Delivery Method
+                    {card.title}
                     </Typography>
                     <Typography className="mt-1 font-normal text-gray-600">
-                        Please select your preferred delivery method for your order.
+                    {card.category}
                     </Typography>
                     <IconButton
                         size="sm"
@@ -193,12 +201,9 @@ export default function Menu() {
                             className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
                         >
                             <div className="block">
-                            <Typography className="font-semibold">
-                                Express Delivery
-                            </Typography>
                             <Typography className="font-normal text-gray-600">
-                                5-7 business days.{" "}
-                                <strong className="text-gray-900">Free</strong>
+                                Rent for 7 Days. {" "}
+                                <strong className="text-gray-900">200</strong>
                             </Typography>
                             </div>
                         </label>
@@ -218,12 +223,9 @@ export default function Menu() {
                             className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
                         >
                             <div className="block">
-                            <Typography className="font-semibold">
-                                Express Delivery
-                            </Typography>
                             <Typography className="font-normal text-gray-600">
-                                2-3 business days.{" "}
-                                <strong className="text-gray-900">$10.00</strong>
+                             Rent for 15 Days. {" "}
+                                <strong className="text-gray-900">200</strong>
                             </Typography>
                             </div>
                         </label>
@@ -242,27 +244,34 @@ export default function Menu() {
                             className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
                         >
                             <div className="block">
-                            <Typography className="font-semibold">
-                                Pickup In-Store
-                            </Typography>
                             <Typography className="font-normal text-gray-600">
-                                Available for pickup within 24 hours.{" "}
-                                <strong className="text-gray-900">Free</strong>
+                            Rent for 1 Month. {" "}
+                                <strong className="text-gray-900">250</strong>
                             </Typography>
                             </div>
                         </label>
+                        </div>
+                        {/* Note Section (Updated) */}
+                        <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-4 rounded-md">
+                            <Typography className="font-medium text-yellow-800">
+                            Note:
+                            </Typography>
+                            <Typography className="text-gray-600">
+                            You will be required to pay the full price of the book as a security deposit. 
+                            The full amount will be refunded when you return the book, after deducting the rent price.
+                            </Typography>
                         </div>
                     </div>
                     </DialogBody>
                     <DialogFooter>
                     <Button className="ml-auto" onClick={handleOpen}>
-                        confirm delivery method
+                        Proceed To Pay
                     </Button>
                     </DialogFooter>
                 </Dialog>
             </div>
         </CardBody>
-      </Card>
+    </Card>
             );
             })}
         </div>

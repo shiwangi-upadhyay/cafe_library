@@ -310,7 +310,7 @@ export default function Menu() {
                     </div>
                     </DialogBody>
                     <DialogFooter>
-                    <Button className="ml-auto" onClick={handleOpen}>
+                    <Button className="ml-auto" onClick={handleRentBook}>
                         Proceed To Pay
                     </Button>
                     </DialogFooter>

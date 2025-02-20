@@ -6,7 +6,7 @@ const page = () => {
     const params = useParams();
     console.log(params)
   return (
-    <div className='text-9xl pt-40'>Payment Succes of {params.reference_id}</div>
+    <div className='text-9xl pt-40'>Payment Succes of -- {params.reference_id}</div>
   )
 }
 

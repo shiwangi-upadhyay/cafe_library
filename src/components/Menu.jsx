@@ -11,6 +11,7 @@ import {
   CardBody,
   Button,
   Tooltip,
+  ButtonGroup,
 } from "@material-tailwind/react";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -91,7 +92,7 @@ export default function Menu() {
                 />
               </CardHeader>
               <CardBody className=" flex flex-col justify-between p-4">
-                <div className="mb-3 flex items-center justify-between">
+                <div className="mb-3 flex items-center justify-between ">
                   <Typography
                     variant="h6"
                     color="gray"
@@ -123,7 +124,7 @@ export default function Menu() {
             <Typography variant="h4" color="blue-gray" className="mb-2 text-lg lg:text-2xl font-semibold line-clamp-2">
                 {card.title}
             </Typography>
-            <Typography color="gray" className="font-normal text-sm lg:text-base line-clamp-3 mb-4">
+            <Typography color="gray" className="font-normal text-sm   lg:text-base line-clamp-3 mb-4">
                 {card.description}
             </Typography>
             <Typography variant="h5" color="blue-gray" className="font-semibold mt-2">
@@ -132,7 +133,7 @@ export default function Menu() {
             {/* Borrow Count and Publish Year */}
             <div className="flex justify-between items-center mt-5">
                 <div className="inline-flex flex-wrap items-center gap-3">
-                    <Tooltip content={card.borrowCount}>
+                    {/*<Tooltip content={card.borrowCount}>
                       <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -186,12 +187,28 @@ export default function Menu() {
                           />
                         </svg>
                       </span>
+                    </Tooltip>*/}
+                    <ButtonGroup>
+                    <Tooltip content={card.borrowCount}>
+                      <Button>Count</Button>
                     </Tooltip>
+                    <Tooltip content={card.publishedYear}>
+                      <Button>Year</Button>
+                    </Tooltip>
+                    <Tooltip content={ 
+                        card?.franchiseStock?.filter((item) => 
+                            item.name._ref === franchiseId)[0]?.stock === undefined
+                            ?"Please select your location first.": 
+                            card?.franchiseStock?.filter((item) =>
+                            item.name._ref === franchiseId)[0]?.stock}>
+                      <Button></Button>
+                    </Tooltip>
+                  </ButtonGroup> 
                   </div>
                   <Button
                     onClick={handleOpen}
                     variant="text"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 pr-2"
                   >
                     Rent Now
                     <svg

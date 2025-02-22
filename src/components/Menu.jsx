@@ -25,11 +25,11 @@ export default function Menu() {
   const franchiseId = useSelector((state) => state.user.franchiseId);
 
   //   Testing the razorpay payment gateway
-  const handleRentBook = async () => {
+  const handleRentBook = async (price, title) => {
     console.log("Loading...");
     const response = await axios.post("/api/users/razorpay", {
-      amount: 555, // Assume each book has a price field
-      bookTitle: "The Alchemist",
+      amount: price, // Assume each book has a price field
+      bookTitle: title,
       email:"singhyash9009670@gmail.com"
     });
     const order=response.data;
@@ -327,7 +327,7 @@ export default function Menu() {
                     </div>
                     </DialogBody>
                     <DialogFooter>
-                    <Button className="ml-auto" onClick={handleRentBook}>
+                    <Button className="ml-auto" onClick={()=>handleRentBook(card.title, card.price)}>
                         Proceed To Pay
                     </Button>
                     </DialogFooter>

@@ -141,7 +141,7 @@ export function Sidebar() {
                 Home
               </ListItem>
             </Link>
-            <Link
+            {/*<Link
               className={`${pathname === "/cafe" && "bg-[#f0f2f4]"}`}
               href="/cafe"
             >
@@ -162,7 +162,7 @@ export function Sidebar() {
                 </ListItemPrefix>
                 Bookings
               </ListItem>
-            </Link>
+            </Link>*/}
             <Link
               className={`${pathname === "/rentals" && "bg-[#f0f2f4]"}`}
               href="/rentals"
@@ -174,7 +174,7 @@ export function Sidebar() {
                 Rentals
               </ListItem>
             </Link>
-            <Link
+            {/*<Link
               className={`${pathname === "/membership" && "bg-[#f0f2f4]"}`}
               href="/membership"
             >
@@ -195,7 +195,7 @@ export function Sidebar() {
                 </ListItemPrefix>
                 Events
               </ListItem>
-            </Link>
+            </Link>*/}
             <Link
               className={`${pathname === "/franchise" && "bg-[#f0f2f4]"}`}
               href="/franchise"

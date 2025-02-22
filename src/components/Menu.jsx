@@ -20,44 +20,24 @@ import { urlFor } from "@/sanity/lib/image";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Image from "next/image";
 
 export default function Menu() {
   const franchiseId = useSelector((state) => state.user.franchiseId);
 
   //   Testing the razorpay payment gateway
   const handleRentBook = async (price, title) => {
-    console.log("Loading...");
     const response = await axios.post("/api/users/razorpay", {
       amount: price, // Assume each book has a price field
       bookTitle: title,
-      email:"singhyash9009670@gmail.com"
+      email: "singhyash9009670@gmail.com",
     });
-    const order=response.data;
-    console.log(order);
+    const order = response.data;
     window.location.href = order.data.payment_link_url;
-
-    // const options = {
-    //   key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-    //   amount: order.amount,
-    //   currency: "INR",
-    //   name: "Tea + Knowledge",
-    //   description: `Renting: ${book.title}`,
-    //   order_id: order.id,
-    //   handler: async function (response) {
-    //     alert(
-    //       "Payment successful! Transaction ID: " + response.razorpay_payment_id
-    //     );
-    //   },
-    //   theme: { color: "#F37254" },
-    // };
-
-    // const rzp = new window.Razorpay(options);
-    // rzp.open();
   };
 
   // Fetching Products from sanity
   const [products, setProducts] = useState([]);
-  const [isProFetched, setIsProFetched] = useState(false);
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(!open);
@@ -65,7 +45,6 @@ export default function Menu() {
   const fetchProducts = async () => {
     const res = await client.fetch(`*[_type == "booksType"]`);
     setProducts(res);
-    setIsProFetched(true);
   };
   useEffect(() => {
     fetchProducts();
@@ -85,7 +64,9 @@ export default function Menu() {
                 floated={false}
                 className="m-0 w-full lg:w-2/5 shrink-0 rounded-lg"
               >
-                <img
+                <Image
+                  width={500}
+                  height={500}
                   src={urlFor(card.coverImage).url()}
                   alt="card-image"
                   className="h-full w-full object-cover"
@@ -120,19 +101,30 @@ export default function Menu() {
                     {card.rating}
                   </Typography>
                 </div>
-            
-            <Typography variant="h4" color="blue-gray" className="mb-2 text-lg lg:text-2xl font-semibold line-clamp-2">
-                {card.title}
-            </Typography>
-            <Typography color="gray" className="font-normal text-sm   lg:text-base line-clamp-3 mb-4">
-                {card.description}
-            </Typography>
-            <Typography variant="h5" color="blue-gray" className="font-semibold mt-2">
-                ₹{card.price}
-            </Typography>
-            {/* Borrow Count and Publish Year */}
-            <div className="flex justify-between items-center mt-5">
-                <div className="inline-flex flex-wrap items-center gap-3">
+
+                <Typography
+                  variant="h4"
+                  color="blue-gray"
+                  className="mb-2 text-lg lg:text-2xl font-semibold line-clamp-2"
+                >
+                  {card.title}
+                </Typography>
+                <Typography
+                  color="gray"
+                  className="font-normal text-sm   lg:text-base line-clamp-3 mb-4"
+                >
+                  {card.description}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  color="blue-gray"
+                  className="font-semibold mt-2"
+                >
+                  ₹{card.price}
+                </Typography>
+                {/* Borrow Count and Publish Year */}
+                <div className="flex justify-between items-center mt-5">
+                  <div className="inline-flex flex-wrap items-center gap-3">
                     {/*<Tooltip content={card.borrowCount}>
                       <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
                         <svg
@@ -189,21 +181,26 @@ export default function Menu() {
                       </span>
                     </Tooltip>*/}
                     <ButtonGroup>
-                    <Tooltip content={card.borrowCount}>
-                      <Button>Count</Button>
-                    </Tooltip>
-                    <Tooltip content={card.publishedYear}>
-                      <Button>Year</Button>
-                    </Tooltip>
-                    <Tooltip content={ 
-                        card?.franchiseStock?.filter((item) => 
-                            item.name._ref === franchiseId)[0]?.stock === undefined
-                            ?"Please select your location first.": 
-                            card?.franchiseStock?.filter((item) =>
-                            item.name._ref === franchiseId)[0]?.stock}>
-                      <Button></Button>
-                    </Tooltip>
-                  </ButtonGroup> 
+                      <Tooltip content={card.borrowCount}>
+                        <Button>Count</Button>
+                      </Tooltip>
+                      <Tooltip content={card.publishedYear}>
+                        <Button>Year</Button>
+                      </Tooltip>
+                      <Tooltip
+                        content={
+                          card?.franchiseStock?.filter(
+                            (item) => item.name._ref === franchiseId
+                          )[0]?.stock === undefined
+                            ? "Please select your location first."
+                            : card?.franchiseStock?.filter(
+                                (item) => item.name._ref === franchiseId
+                              )[0]?.stock
+                        }
+                      >
+                        <Button></Button>
+                      </Tooltip>
+                    </ButtonGroup>
                   </div>
                   <Button
                     onClick={handleOpen}
@@ -233,13 +230,13 @@ export default function Menu() {
                     className="p-4"
                   >
                     <DialogHeader className="relative m-0 block">
-                    <Typography variant="h4" color="blue-gray">
-                    {card.title}
-                    </Typography>
-                    <Typography className="mt-1 font-normal text-gray-600">
-                    {card.category}
-                    </Typography>
-                    <IconButton
+                      <Typography variant="h4" color="blue-gray">
+                        {card.title}
+                      </Typography>
+                      <Typography className="mt-1 font-normal text-gray-600">
+                        {card.category}
+                      </Typography>
+                      <IconButton
                         size="sm"
                         variant="text"
                         className="!absolute right-3.5 top-3.5"
@@ -264,10 +261,10 @@ export default function Menu() {
                             className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
                           >
                             <div className="block">
-                            <Typography className="font-normal text-gray-600">
-                                Rent for 7 Days. {" "}
+                              <Typography className="font-normal text-gray-600">
+                                Rent for 7 Days.{" "}
                                 <strong className="text-gray-900">200</strong>
-                            </Typography>
+                              </Typography>
                             </div>
                           </label>
                         </div>
@@ -286,10 +283,10 @@ export default function Menu() {
                             className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
                           >
                             <div className="block">
-                            <Typography className="font-normal text-gray-600">
-                             Rent for 15 Days. {" "}
+                              <Typography className="font-normal text-gray-600">
+                                Rent for 15 Days.{" "}
                                 <strong className="text-gray-900">200</strong>
-                            </Typography>
+                              </Typography>
                             </div>
                           </label>
                         </div>
@@ -307,37 +304,42 @@ export default function Menu() {
                             className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
                           >
                             <div className="block">
-                            <Typography className="font-normal text-gray-600">
-                            Rent for 1 Month. {" "}
+                              <Typography className="font-normal text-gray-600">
+                                Rent for 1 Month.{" "}
                                 <strong className="text-gray-900">250</strong>
-                            </Typography>
+                              </Typography>
                             </div>
                           </label>
                         </div>
                         {/* Note Section (Updated) */}
                         <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-4 rounded-md">
-                            <Typography className="font-medium text-yellow-800">
+                          <Typography className="font-medium text-yellow-800">
                             Note:
-                            </Typography>
-                            <Typography className="text-gray-600">
-                            You will be required to pay the full price of the book as a security deposit. 
-                            The full amount will be refunded when you return the book, after deducting the rent price.
-                            </Typography>
+                          </Typography>
+                          <Typography className="text-gray-600">
+                            You will be required to pay the full price of the
+                            book as a security deposit. The full amount will be
+                            refunded when you return the book, after deducting
+                            the rent price.
+                          </Typography>
                         </div>
-                    </div>
+                      </div>
                     </DialogBody>
                     <DialogFooter>
-                    <Button className="ml-auto" onClick={()=>handleRentBook(card.title, card.price)}>
+                      <Button
+                        className="ml-auto"
+                        onClick={() => handleRentBook(card.price, card.title)}
+                      >
                         Proceed To Pay
-                    </Button>
+                      </Button>
                     </DialogFooter>
-                </Dialog>
-            </div>
-        </CardBody>
-    </Card>
-            );
-            })}
-        </div>
-        </section>
-    );
+                  </Dialog>
+                </div>
+              </CardBody>
+            </Card>
+          );
+        })}
+      </div>
+    </section>
+  );
 }

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { Select, Option } from "@material-tailwind/react";
-
+import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import SearchBar from "@/components/SearchBar";
 import Menu from "@/components/Menu";
@@ -44,10 +44,12 @@ export default function Home() {
           </div>
           {/* Right Section */}
           <div className="w-full  lg:w-1/2 flex items-center justify-center bg bg-gray-500 rounded-lg shadow-lg">
-            <img
+            <Image
               src="/images/bookwall.jpg"
               alt="Library"
-              className="max-w-full h-auto rounded-lg  "
+              width={500}
+              height={500}
+              className="w-full h-full rounded-lg"
             />
           </div>
         </div>

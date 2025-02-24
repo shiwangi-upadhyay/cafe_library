@@ -6,7 +6,6 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 
-
 const page = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -29,8 +28,10 @@ const page = () => {
       toast.error(response.data.error);
     }
   };
-  const urlToken = window.location.search.split("=")[1];
-  setToken(urlToken);
+  useEffect(() => {
+    const urlToken = window.location.search.split("=")[1];
+    setToken(urlToken);
+  }, []);
   return (
     <div className="flex justify-center items-center gap-24 h-screen">
       <Card color="transparent" shadow={false}>

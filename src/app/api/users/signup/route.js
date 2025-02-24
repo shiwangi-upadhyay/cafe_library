@@ -22,7 +22,7 @@ export async function POST(request) {
       email,
       password: hashedPassword,
     });
-    const savedUser = await newUser.save();
+    await newUser.save();
     // send verification mail
     // await sendMail({ email, emailType: "VERIFY", userId: savedUser._id });
     return NextResponse.json({

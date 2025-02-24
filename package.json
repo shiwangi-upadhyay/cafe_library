@@ -23,6 +23,7 @@
     "next": "^15.1.6",
     "next-sanity": "^9.8.42",
     "nodemailer": "^6.10.0",
+    "razorpay": "^2.9.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.1",

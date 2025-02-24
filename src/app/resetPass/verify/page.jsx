@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
+
 
 const page = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [showPass, setShowPass] = useState(false);
@@ -29,9 +29,8 @@ const page = () => {
       toast.error(response.data.error);
     }
   };
-  useEffect(() => {
-    setToken(searchParams.get("token"));
-  }, []);
+  const urlToken = window.location.search.split("=")[1];
+  setToken(urlToken);
   return (
     <div className="flex justify-center items-center gap-24 h-screen">
       <Card color="transparent" shadow={false}>

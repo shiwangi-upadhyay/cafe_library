@@ -21,7 +21,7 @@ const page = () => {
     console.log(response.data);
   };
   return (
-    <div className="flex justify-center items-center gap-24 h-screen">
+    <div className="flex justify-center items-center gap-24 min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh]">
       <Card color="transparent" shadow={false}>
         <Typography variant="h5" color="blue-gray">
           Reset Password

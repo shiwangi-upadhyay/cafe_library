@@ -28,7 +28,7 @@ export const sendMail = async ({ email, emailType, userId }) => {
       },
     });
     const mailOptions = {
-      from: { name: "Akanksha Enterprises", address: process.env.NODE_USER },
+      from: { name: "Cafe Library", address: process.env.NODE_USER },
       to: email,
       subject: `${
         emailType === "VERIFY" ? "Verify your email" : "Reset your Password"

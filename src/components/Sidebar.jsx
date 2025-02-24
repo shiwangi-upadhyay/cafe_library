@@ -43,6 +43,7 @@ import toast from "react-hot-toast";
 import { useLazyGetUserDataQuery } from "@/redux/services/userApi";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLoggedIn } from "@/redux/slices/user";
+import Image from "next/image";
 export function Sidebar() {
   const justLoggedIn = useSelector((state) => state.user.justLoggedIn);
   const dispatch = useDispatch();
@@ -87,11 +88,13 @@ export function Sidebar() {
   const closeDrawer = () => setIsDrawerOpen(false);
   return (
     <>
-      <div className="w-full flex items-center px-2 py-2 lg:px-4 justify-between rounded-b-xxl ">
+      <div className="w-full flex items-center px-2 py-2 lg:px-4 justify-between rounded-b-xxl h-[8vh] md:h-[6vh] lg:h-[8.5vh]">
         <div className="flex items-center gap-4">
-          <img
+          <Image
             src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
-            alt="brand"
+            alt="brand logo"
+            width={32}
+            height={32}
             className="h-8 w-8"
           />
           <Typography variant="h5" color="blue-gray">
@@ -141,17 +144,7 @@ export function Sidebar() {
                 Home
               </ListItem>
             </Link>
-            {/*<Link
-              className={`${pathname === "/cafe" && "bg-[#f0f2f4]"}`}
-              href="/cafe"
-            >
-              <ListItem>
-                <ListItemPrefix>
-                  <IoLibrarySharp className="text-xl" />
-                </ListItemPrefix>
-                Cafe
-              </ListItem>
-            </Link>
+            {/*
             <Link
               className={`${pathname === "/bookings" && "bg-[#f0f2f4]"}`}
               href="/bookings"
@@ -291,28 +284,30 @@ export function Sidebar() {
               </AccordionBody>
             </Accordion>
             {/* Checking user is loged in or not */}
-            {!isLoading&&<div>
-              {data?.success ? (
-                <ListItem onClick={() => handleLogout()}>
-                  <ListItemPrefix>
-                    <PowerIcon className="h-5 w-5" />
-                  </ListItemPrefix>
-                  Log Out
-                </ListItem>
-              ) : (
-                <Link
-                  className={`${pathname === "/login" && "bg-[#f0f2f4]"}`}
-                  href="/login"
-                >
-                  <ListItem>
+            {!isLoading && (
+              <div>
+                {data?.success ? (
+                  <ListItem onClick={() => handleLogout()}>
                     <ListItemPrefix>
-                      <IoLogInSharp className="text-3xl" />
+                      <PowerIcon className="h-5 w-5" />
                     </ListItemPrefix>
-                    Login
+                    Log Out
                   </ListItem>
-                </Link>
-              )}
-            </div>}
+                ) : (
+                  <Link
+                    className={`${pathname === "/login" && "bg-[#f0f2f4]"}`}
+                    href="/login"
+                  >
+                    <ListItem>
+                      <ListItemPrefix>
+                        <IoLogInSharp className="text-3xl" />
+                      </ListItemPrefix>
+                      Login
+                    </ListItem>
+                  </Link>
+                )}
+              </div>
+            )}
           </List>
           {/* Alert Message */}
           <Alert

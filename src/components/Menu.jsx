@@ -73,7 +73,7 @@ export default function Menu() {
                 />
               </CardHeader>
               <CardBody className=" flex flex-col justify-between p-4">
-                <div className="mb-3 flex items-center justify-between ">
+                <div className="mb-3 flex items-center justify-between pr-3 lg:pr-1">
                   <Typography
                     variant="h6"
                     color="gray"
@@ -123,8 +123,8 @@ export default function Menu() {
                   ₹{card.price}
                 </Typography>
                 {/* Borrow Count and Publish Year */}
-                <div className="flex justify-between items-center mt-5">
-                  <div className="inline-flex flex-wrap items-center gap-3">
+                <div className="flex  justify-between flex-col lg:flex-row items-center mt-5">
+                  <div className="inline-flex flex-col items-center gap-2">
                     {/*<Tooltip content={card.borrowCount}>
                       <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
                         <svg
@@ -198,14 +198,14 @@ export default function Menu() {
                               )[0]?.stock
                         }
                       >
-                        <Button></Button>
+                        <Button>Stock</Button>
                       </Tooltip>
                     </ButtonGroup>
                   </div>
                   <Button
                     onClick={handleOpen}
                     variant="text"
-                    className="flex items-center gap-2 pr-2"
+                    className="flex items-center gap-2 pr-2 mt-4 lg:mt-0"
                   >
                     Rent Now
                     <svg

@@ -1,12 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { Button } from "@material-tailwind/react";
 import Link  from "next/link";
 
 const page = () => {
-  const searchParams = useSearchParams();
   const [verified, setVerified] = useState(false);
   const verifyEmail = async (token) => {
     try {
@@ -19,7 +17,7 @@ const page = () => {
     }
   };
   useEffect(() => {
-    const token = searchParams.get("token");
+    const token = window.location.search.split("=")[1];
     verifyEmail(token);
   }, []);
 

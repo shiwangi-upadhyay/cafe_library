@@ -29,7 +29,7 @@ const page = () => {
                 {/* Right Section */}
                 <div className="w-full  lg:w-1/2  flex items-center justify-center py-2 bg-[#d5d7d7] rounded-lg shadow-lg ">
                 <Carousel
-                      className="rounded-xl"
+                      className="rounded-xl, min-h-[250px] "
                       navigation={({ setActiveIndex, activeIndex, length }) => (
                         <div className="absolute bottom-4 lg:bottom-1 left-2/4 z-50 flex -translate-x-2/4 gap-2">
                           {new Array(length).fill("").map((_, i) => (
@@ -44,7 +44,7 @@ const page = () => {
                         </div>
                       )}
                     >
-                <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-4 p-4 px-10 lg:px-16  ">
+                <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-4 p-4 px-10 lg:px-16 h-full ">
                   <div className="w-full lg:w-1/2">
                     <Typography color="blue-gray" className="mb-2 text-lg font-bold">
                         Material Tailwind
@@ -100,7 +100,7 @@ const page = () => {
             </div>
             
         </div>
-        <Popover placement="bottom-start">
+        <Popover placement="bottom-start fixed bottom-5 right-5">
         <PopoverHandler>
         <Button>Contact Us</Button>
         </PopoverHandler>
@@ -109,14 +109,14 @@ const page = () => {
           <Avatar src="/images/bookwall.jpg" alt="tania andrew" />
           <div>
             <Typography variant="h6" color="blue-gray">
-              Tania Andrew
+              Amit Saxena
             </Typography>
             <Typography
               variant="small"
               color="gray"
               className="font-medium text-blue-gray-500"
             >
-              General Manager
+              Founder
             </Typography>
           </div>
         </div>
@@ -139,7 +139,7 @@ const page = () => {
                   />
                 </svg>
               </ListItemPrefix>
-              ABC Construction
+              Tea Know + Age
             </ListItem>
           </a>
           <a href="#" className="text-initial font-medium text-blue-gray-500">
@@ -158,7 +158,7 @@ const page = () => {
                   />
                 </svg>
               </ListItemPrefix>
-              00 123 456 789
+              +91-7078633060
             </ListItem>
           </a>
           <a href="#" className="text-initial font-medium text-blue-gray-500">
@@ -181,7 +181,7 @@ const page = () => {
                   />
                 </svg>
               </ListItemPrefix>
-              person@example.com
+                teaknowage@gmail.com
             </ListItem>
           </a>
         </List>

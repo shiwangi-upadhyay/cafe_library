@@ -15,7 +15,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="min-h-[80vh] flex flex-col gap-5 items-center justify-center  overflow-hidden ">
+    <div className=" min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex flex-col gap-5 items-center justify-center">
         <div className="container mx-auto mb-0 sm:mb-8  flex flex-col lg:flex-row items-center px-6 lg:px-0">
               {/* Left Section */}
             <div className="w-full lg:w-1/2 flex flex-col items-center justify-center lg:items-start text-center  lg:text-left mt-8 lg:mt-0 gap-4 pb-5">

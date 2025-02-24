@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-[80vh] flex flex-col gap-5 items-center justify-center  overflow-hidden ">
+      <div className="min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex flex-col gap-5 items-center justify-center">
         <div className="container  mx-auto flex flex-col-reverse lg:flex-row items-center px-6 lg:px-0">
           {/* Left Section */}
           <div className="w-full lg:w-1/2 flex flex-col items-center justify-center lg:items-start text-center  lg:text-left mt-8 lg:mt-0 gap-4">

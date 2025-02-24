@@ -4,10 +4,9 @@ import Image from "next/image";
 import { Button } from "@material-tailwind/react";
 const page = () => {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 p-6">
+    <div className=" min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex flex-col justify-center items-center bg-gray-100 p-6">
       {/* Heading */}
       <h2 className="text-2xl font-semibold text-center mb-4">Profile</h2>
-
       {/* Profile Card */}
       <div className="flex flex-col items-center p-6 md:p-10 w-full max-w-xl bg-white shadow-lg rounded-2xl">
         

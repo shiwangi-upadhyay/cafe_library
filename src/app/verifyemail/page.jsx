@@ -22,7 +22,7 @@ const page = () => {
   }, []);
 
   return (
-    <div className="h-screen flex justify-center gap-5 items-center">
+    <div className="min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex justify-center gap-5 items-center">
       {verified ? (
         <div className="flex flex-col items-center gap-5">
           <h1 className="text-3xl font-bold text-green-500">Email Verified</h1>

@@ -88,7 +88,8 @@ export function Sidebar() {
   const closeDrawer = () => setIsDrawerOpen(false);
   return (
     <>
-      <div className="w-full flex items-center px-2 py-2 lg:px-4 justify-between rounded-b-xxl h-[8vh] md:h-[6vh] lg:h-[8.5vh]">
+      {/* Navbar */}
+      <nav className="w-full flex items-center px-2 py-2 lg:px-4 justify-between rounded-b-xxl h-[8vh] md:h-[6vh] lg:h-[8.5vh]">
         <div className="flex items-center gap-4">
           <Image
             src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
@@ -118,7 +119,8 @@ export function Sidebar() {
             </Link>
           )}
         </div>
-      </div>
+      </nav>
+      {/* Sidebar */}
       <Drawer open={isDrawerOpen} onClose={closeDrawer}>
         <Card
           color="transparent"
@@ -126,7 +128,9 @@ export function Sidebar() {
           className="h-[calc(100vh-2rem)] overflow-y-scroll w-full p-4"
         >
           <div className="mb-2 flex items-center gap-4 p-4">
-            <img
+            <Image
+              width={300}
+              height={300}
               src="https://docs.material-tailwind.com/img/logo-ct-dark.png"
               alt="brand"
               className="h-8 w-8"

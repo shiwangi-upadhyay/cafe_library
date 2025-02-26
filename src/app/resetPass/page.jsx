@@ -18,7 +18,6 @@ const page = () => {
     } else {
       toast.error(response.data.message);
     }
-    console.log(response.data);
   };
   return (
     <div className="flex justify-center items-center gap-24 min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh]">

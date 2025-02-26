@@ -24,7 +24,6 @@ import { IoLibrarySharp, IoLogInSharp } from "react-icons/io5";
 import { MdEmojiEvents, MdKey } from "react-icons/md";
 import { PiHandCoinsFill } from "react-icons/pi";
 import { BsFillTelephoneOutboundFill } from "react-icons/bs";
-import { SlCalender } from "react-icons/sl";
 import { FcAbout } from "react-icons/fc";
 import { SiMicrodotblog } from "react-icons/si";
 import {
@@ -42,7 +41,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useLazyGetUserDataQuery } from "@/redux/services/userApi";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLoggedIn } from "@/redux/slices/user";
+import { changeLoggedIn, setUserData } from "@/redux/slices/user";
 import Image from "next/image";
 export function Sidebar() {
   const justLoggedIn = useSelector((state) => state.user.justLoggedIn);
@@ -51,18 +50,24 @@ export function Sidebar() {
   const [pathname, setPathname] = React.useState(false);
   const [openAlert, setOpenAlert] = React.useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-  const [trigger, { data, isLoading }] = useLazyGetUserDataQuery();
+  const [getUserData, { data, isLoading,isSuccess }] = useLazyGetUserDataQuery();
   // Setting Pathname on navigation change
   useEffect(() => {
     setPathname(window.location.pathname);
   }, [path]);
   // Checking isUserJustLoggedIn
   useEffect(() => {
-    trigger();
+    getUserData();
     if (justLoggedIn) {
       dispatch(changeLoggedIn(false));
     }
   }, [justLoggedIn]);
+  // Storing useraData in Redux
+  useEffect(() => {
+    if (isSuccess && data) {
+      dispatch(setUserData(data.user)); // Store in Redux
+    }
+  }, [isSuccess, data]);
   //Handeling Logout
   const router = useRouter();
   const handleLogout = async () => {
@@ -70,7 +75,7 @@ export function Sidebar() {
       const response = await fetch("/api/users/logout");
       const res = await response.json();
       if (res.success) {
-        trigger();
+        getUserData();
         router.push("/");
         toast.success(res.message);
       }
@@ -148,18 +153,6 @@ export function Sidebar() {
                 Home
               </ListItem>
             </Link>
-            {/*
-            <Link
-              className={`${pathname === "/bookings" && "bg-[#f0f2f4]"}`}
-              href="/bookings"
-            >
-              <ListItem>
-                <ListItemPrefix>
-                  <SlCalender className="text-xl" />
-                </ListItemPrefix>
-                Bookings
-              </ListItem>
-            </Link>*/}
             <Link
               className={`${pathname === "/rentals" && "bg-[#f0f2f4]"}`}
               href="/rentals"

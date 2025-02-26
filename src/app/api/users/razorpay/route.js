@@ -27,7 +27,7 @@ export async function POST(request) {
         book_id: bookTitle,
         reference_id: reference_id,
       },
-      callback_url: `http://localhost:3000/paySuccess?reference_id=${reference_id}`,
+      callback_url: `http://${process.env.DOMAIN}/paySuccess?reference_id=${reference_id}`,
       callback_method: "get",
     };
 

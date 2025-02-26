@@ -306,39 +306,6 @@ export function Sidebar() {
               </div>
             )}
           </List>
-          {/* Alert Message */}
-          <Alert
-            open={openAlert}
-            className="mt-auto"
-            onClose={() => setOpenAlert(false)}
-          >
-            <CubeTransparentIcon className="mb-4 h-12 w-12" />
-            <Typography variant="h6" className="mb-1">
-              Upgrade to PRO
-            </Typography>
-            <Typography variant="small" className="font-normal opacity-80">
-              Upgrade to Library Cafe PRO and be our prioprity customers,
-              premium benefits.
-            </Typography>
-            <div className="mt-4 flex gap-3">
-              <Typography
-                as="button"
-                variant="small"
-                className="font-medium opacity-80"
-                onClick={() => setOpenAlert(false)}
-              >
-                Dismiss
-              </Typography>
-              <Typography
-                as="a"
-                href="/membership"
-                variant="small"
-                className="font-medium"
-              >
-                Upgrade Now
-              </Typography>
-            </div>
-          </Alert>
         </Card>
       </Drawer>
     </>

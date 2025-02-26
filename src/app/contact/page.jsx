@@ -9,8 +9,8 @@ const page = () => {
     <>
     <div className="w-full min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh]  flex flex-col justify-center items-center"> 
 
-        <div className="w-full h-[10%] text-center rounded-b-lg bg-blue-gray-800 py-4">
-          <h2 className="text-2xl font-semibold text-center mb-4 text-white">Contact Us</h2>
+        <div className="w-full min-h-[30vh] lg:min-h-[40vh] flex flex-col items-center justify-center rounded-b-lg bg-[url('/images/bgcontact.avif')] py-4">
+          <h2 className="text-4xl font-semibold text-center mb-4 text-white">Contact Us</h2>
           <div>
           <Link className={`${pathname === "/" ? " text-white" : "text-blue-gray-500" }`} href="/">
               Home
@@ -22,7 +22,7 @@ const page = () => {
             </Link>
           </div>
         </div>
-      <div className="flex flex-col lg:flex-row items-center justify-around px-6 md:px-0 lg:px-10">
+      <div className="flex flex-col lg:flex-row items-center justify-around px-6 lg:px-10 py-10">
         
         {/* Left Section */}
         <div className="flex flex-col  w-full lg:w-1/2">

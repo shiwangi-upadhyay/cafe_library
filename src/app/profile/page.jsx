@@ -2,10 +2,29 @@
 import React from 'react';
 import Image from "next/image";
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import toast from "react-hot-toast";
+import{Button} from "@material-tailwind/react";
 const page = () => {
   const userData = useSelector((state) => state.user.userData);
+  const router = useRouter();
+  const handleLogout = async() =>{
+    try{
+      const response = await fetch("/api/users/logout");
+      const data = await response.json();
+      if(data.success){
+        
+        router.push("/");
+        toast.success(data.message);
+      }
+    }catch(error){
+    console.log(error);
+    toast.error("Error Logging Out");
+  }
+};
+
   return (
-    <div className=" min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex flex-col justify-center items-center bg-gray-100 p-6">
+    <div className=" min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex flex-col justify-center items-center bg-gray-100 p-6 relative">
       {/* Heading */}
       <h2 className="text-2xl font-semibold text-center mb-4">Profile</h2>
       {/* Profile Card */}
@@ -41,6 +60,9 @@ const page = () => {
             <p className="text-gray-900">{userData?.membership ? userData?.membership : "N/A"}</p>
           </div>
         </div>
+      </div>
+      <div className='absolute bottom-5 right-5'>
+        <Button onClick={handleLogout}>Logout</Button>
       </div>
     </div>
   );

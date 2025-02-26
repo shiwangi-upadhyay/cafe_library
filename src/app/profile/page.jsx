@@ -1,48 +1,9 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from "next/image";
-import { Button } from "@material-tailwind/react";
+import { useSelector } from 'react-redux';
 const page = () => {
-
-  const[user, setUser] = useState(null);
-  const[loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch("/api/users/userData"); 
-        const data = await response.json();
-        if (data.success) {  
-          setUser(data.user);
-          console.log("User data fetched:", data.user);
-        } else {
-          console.log("User not found:", data);
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  if(loading){
-    return(
-      <div className="min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex justify-center items-center">
-        <p className="text-lg font-semibold text-gray-600">Loading...</p>
-      </div>
-    );
-  }
-
-  if(!user){
-    return(
-      <div className="min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex justify-center items-center">
-        <p className="text-lg font-semibold text-gray-600">User not found</p>
-      </div>
-    );
-  }
+  const userData = useSelector((state) => state.user.userData);
   return (
     <div className=" min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex flex-col justify-center items-center bg-gray-100 p-6">
       {/* Heading */}
@@ -62,10 +23,10 @@ const page = () => {
               />
             </div>
             <h2 className="text-xl font-semibold mt-3 flex items-center">
-              {user.username}
+              {userData?.username}
             </h2>
           <p className='text-gray-500 text-sm'> 
-            {user.email}
+            {userData?.email}
           </p>
         </div>
 
@@ -73,11 +34,11 @@ const page = () => {
         <div className="mt-6 space-y-4 text-sm text-gray-700">
           <div className="grid grid-cols-2 gap-2">
             <p className="text-gray-500">Role: </p>
-            <p className="text-gray-900">{user.isAdmin ? "Admin" : "User"}</p>
+            <p className="text-gray-900">{userData?.isAdmin ? "Admin" : "User"}</p>
             <p className="text-gray-500">Verified: </p>
-            <p className="text-gray-900">{user.isVerified ? "Verified" : "Not Verified"}</p>
+            <p className="text-gray-900">{userData?.isVerified ? "Verified" : "Not Verified"}</p>
             <p className="text-gray-500">Membership: </p>
-            <p className="text-gray-900">{user.membership ? user.membership : "N/A"}</p>
+            <p className="text-gray-900">{userData?.membership ? userData?.membership : "N/A"}</p>
           </div>
         </div>
       </div>

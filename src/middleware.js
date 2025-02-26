@@ -6,7 +6,7 @@ export async function middleware(request) {
     path === "/login" ||
     path === "/signup" ||
     path === "/verifyemail" ||
-    path === "/resetPass" ||
+    path.slice(0, 10) === "/resetPass" ||
     path === "/";
   const adminPath = path.slice(0, 6) === "/admin";
   const token = request.cookies.get("token")?.value || "";

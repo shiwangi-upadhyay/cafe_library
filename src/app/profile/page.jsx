@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from "next/image";
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
+import { useRouter } from "next/navigation"; 
 import toast from "react-hot-toast";
 import{Button} from "@material-tailwind/react";
 const page = () => {

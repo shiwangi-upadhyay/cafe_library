@@ -3,8 +3,12 @@ import Rented from "@/models/rentedModel";
 import { NextResponse } from "next/server";
 connect();
 export async function POST(request) {
-  const body = await request.body();
-  const rented= new Rented({username:"yash singh testing"})
-  await rented.save();
-  return NextResponse.json({ success: true });
+  try {
+    const body = await request.json();
+    const rented = new Rented({ username: "yash singh testing" });
+    await rented.save();
+    return NextResponse.json({ status: "ok" });
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 }

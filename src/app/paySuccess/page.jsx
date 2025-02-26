@@ -1,13 +1,15 @@
 "use client";
-import { useParams } from 'next/navigation'
-import React from 'react'
 
-const page = () => {
-    const params = useParams();
-    console.log(params)
+import React, { Suspense } from "react";
+import PaymentSuccess from "@/components/paymentSuccess"; // Move logic to a separate component
+
+const Page = () => {
   return (
-    <div className='text-9xl pt-40'>Payment Succes of -- {params.reference_id}</div>
-  )
-}
+    <Suspense fallback={<h1>Loading Payment Details...</h1>}>
+      <PaymentSuccess />
+    </Suspense>
+  );
+};
 
-export default page
+export default Page;
+

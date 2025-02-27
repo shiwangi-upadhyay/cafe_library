@@ -7,7 +7,8 @@ export async function POST(request) {
       key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
-    const { bookTitle, amount, email } = await request.json();
+    const { bookTitle, amount, userEmail, userName, franchiseName, duration } =
+      await request.json();
     // Create unique reference ID
     const reference_id = `book_${bookTitle}_${Date.now()}`;
     // Payment link options
@@ -17,15 +18,18 @@ export async function POST(request) {
       accept_partial: false,
       description: `Payment for Book ID: ${bookTitle}`,
       customer: {
-        email: email,
+        email: userEmail,
       },
       notify: {
         email: true,
       },
       reminder_enable: true,
       notes: {
-        book_id: bookTitle,
-        reference_id: reference_id,
+        userName,
+        userEmail,
+        bookTitle,
+        franchiseName,
+        duration,
       },
       callback_url: `${process.env.DOMAIN}paySuccess`,
       callback_method: "get",
@@ -46,10 +50,9 @@ export async function POST(request) {
       },
     });
   } catch (error) {
-    console.error("Error creating Razorpay payment link:", error);
-    return {
+    return NextResponse.json({
       success: false,
       error: error.message,
-    };
+    });
   }
 }

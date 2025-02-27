@@ -3,8 +3,7 @@ import React from 'react'
 
 const SearchBar = () => {
     return (
-    <form className="form relative min-w-[50vw]+ ">
-        
+    <form className="form relative min-w-[50vw]  "> 
     <button className="absolute left-2 -translate-y-1/2 top-1/2 p-1 ">
         <div className='p-2  bg-black rounded-full flex justify-center items-center'>
         <svg 

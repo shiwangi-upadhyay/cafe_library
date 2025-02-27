@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const user = createSlice({
   name: "user",
   initialState: {
-    userData: null,
+    userData: {},
     justLoggedIn: false,
-    franchiseId: "",
+    franchiseDetails: {},
   },
   reducers: {
     changeLoggedIn: (state, action) => {
@@ -14,11 +14,12 @@ export const user = createSlice({
     setUserData: (state, action) => {
       state.userData = action.payload;
     },
-    setFranchiseId: (state, action) => {
-      state.franchiseId = action.payload;
+    setFranchiseDetails: (state, action) => {
+      state.franchiseDetails = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeLoggedIn, setUserData, setFranchiseId } = user.actions;
+export const { changeLoggedIn, setUserData, setFranchiseDetails } =
+  user.actions;

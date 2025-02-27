@@ -7,7 +7,7 @@ import { client } from "@/sanity/lib/client";
 import SearchBar from "@/components/SearchBar";
 import Menu from "@/components/Menu";
 import { useDispatch } from "react-redux";
-import { setFranchiseId } from "@/redux/slices/user";
+import { setFranchiseDetails } from "@/redux/slices/user";
 
 export default function Home() {
   const [franchises, setFranchises] = useState([]);
@@ -62,7 +62,7 @@ export default function Home() {
                   <Option
                     key={franchise._id}
                     onClick={() => {
-                      dispatch(setFranchiseId(franchise._id));
+                      dispatch(setFranchiseDetails(franchise));
                     }}
                   >
                     {franchise.name}

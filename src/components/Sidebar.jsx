@@ -48,7 +48,6 @@ export function Sidebar() {
   const dispatch = useDispatch();
   const path = usePathname();
   const [pathname, setPathname] = React.useState(false);
-  const [openAlert, setOpenAlert] = React.useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const [getUserData, { data, isLoading,isSuccess }] = useLazyGetUserDataQuery();
   // Setting Pathname on navigation change

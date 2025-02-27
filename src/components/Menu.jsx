@@ -23,14 +23,27 @@ import axios from "axios";
 import Image from "next/image";
 
 export default function Menu() {
-  const franchiseId = useSelector((state) => state.user.franchiseId);
+  const { _id, name } = useSelector((state) => state.user.franchiseDetails);
+  const userData = useSelector((state) => state.user.userData);
+  const [duration, setDuration] = useState(null);
 
   //   Testing the razorpay payment gateway
-  const handleRentBook = async (price, title) => {
+  const handleRentBook = async (
+    amount,
+    bookTitle,
+    userEmail,
+    userName,
+    franchiseName,
+    duration
+  ) => {
+    console.log(duration);
     const response = await axios.post("/api/users/razorpay", {
-      amount: price, // Assume each book has a price field
-      bookTitle: title,
-      email: "singhyash9009670@gmail.com",
+      amount,
+      bookTitle,
+      userEmail,
+      userName,
+      franchiseName,
+      duration,
     });
     const order = response.data;
     window.location.href = order.data.payment_link_url;
@@ -190,11 +203,11 @@ export default function Menu() {
                       <Tooltip
                         content={
                           card?.franchiseStock?.filter(
-                            (item) => item.name._ref === franchiseId
+                            (item) => item.name._ref === _id
                           )[0]?.stock === undefined
                             ? "Please select your location first."
                             : card?.franchiseStock?.filter(
-                                (item) => item.name._ref === franchiseId
+                                (item) => item.name._ref === _id
                               )[0]?.stock
                         }
                       >
@@ -249,6 +262,7 @@ export default function Menu() {
                       <div className="space-y-4">
                         <div>
                           <input
+                            onClick={() => setDuration(7)}
                             type="radio"
                             id="standard"
                             name="hosting"
@@ -270,6 +284,7 @@ export default function Menu() {
                         </div>
                         <div>
                           <input
+                            onClick={() => setDuration(15)}
                             type="radio"
                             id="express"
                             name="hosting"
@@ -292,6 +307,7 @@ export default function Menu() {
                         </div>
                         <div>
                           <input
+                            onClick={() => setDuration(30)}
                             type="radio"
                             id="store"
                             name="hosting"
@@ -328,7 +344,16 @@ export default function Menu() {
                     <DialogFooter>
                       <Button
                         className="ml-auto"
-                        onClick={() => handleRentBook(card.price, card.title)}
+                        onClick={() =>
+                          handleRentBook(
+                            card.price,
+                            card.title,
+                            userData.email,
+                            userData.username,
+                            name,
+                            duration
+                          )
+                        }
                       >
                         Proceed To Pay
                       </Button>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { client } from "@/sanity/lib/client";
 import SearchBar from "@/components/SearchBar";
 import Menu from "@/components/Menu";
+import Category from "@/components/Category";
 import { useDispatch } from "react-redux";
 import { setFranchiseDetails } from "@/redux/slices/user";
 
@@ -73,7 +74,9 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <Menu />
+      
+      {/*<Menu />*/}
+      <Category/>
     </>
   );
 }

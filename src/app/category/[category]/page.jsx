@@ -12,13 +12,16 @@ import {
   Button,
   Tooltip,
   ButtonGroup,
+  Select, Option,
 } from "@material-tailwind/react";
+
 import React from "react";
 import { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setFranchiseDetails } from "@/redux/slices/user";
 import axios from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -28,6 +31,21 @@ const page = () => {
     const userData = useSelector((state) => state.user.userData);
     const [duration, setDuration] = useState(null);
     const { category } = useParams(); // Fetching the category from the URL
+    const [franchises, setFranchises] = useState([]);
+
+    //Fetch franchises data from sanity
+    const fetchFranchiseData = async () => {
+        const res = await client.fetch(`*[_type == "franchiseType"]`);
+        setFranchises(res);
+        };
+    
+        // Fetch franchise data
+        useEffect(() => {
+        fetchFranchiseData();
+        }, []);
+    
+    const dispatch = useDispatch();
+
     //   Testing the razorpay payment gateway
     const handleRentBook = async (
         amount,
@@ -68,7 +86,28 @@ const page = () => {
     }, [category]);
     return (
         <section className="p-8">
-            <h2 className="text-2xl font-bold text-center mb-8">Books {category}</h2>
+            <div className="flex flex-col md:flex-row justify-center items-center gap-5 ">
+                    <h2 className="text-2xl font-bold   text-center">Books {category}</h2>
+                <div className="w-50 mb-5 lg:mb-0">
+                    <Select label="Select Location">
+                    {franchises.map((franchise) => {
+                        return (
+                        <Option
+                            key={franchise._id}
+                            onClick={() => {
+                            dispatch(setFranchiseDetails(franchise));
+                            }}
+                        >
+                            {franchise.name}
+                        </Option>
+                        );
+                    })}
+                    </Select>
+                </div>
+            
+            </div>
+            
+
             <div className="grid grid-cols-1 md:grid-cols-2  gap-4 ">
             {products.map((card) => {
                 return (
@@ -345,6 +384,7 @@ const page = () => {
                             </div>
                             </div>
                         </DialogBody>
+                        {/*
                         <DialogFooter>
                             <Button
                             className="ml-auto"
@@ -362,6 +402,7 @@ const page = () => {
                             Proceed To Pay
                             </Button>
                         </DialogFooter>
+                        */}
                         </Dialog>
                     </div>
                     </CardBody>

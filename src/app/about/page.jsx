@@ -9,7 +9,7 @@ const page = () => {
         <div className="relative">
           {/* Image Section (Pushed Right) */}
           <Image
-            weight={300}
+            width={300}
             height={300}
             src="/images/bookwall.jpg"
             alt="Descriptive Alt"

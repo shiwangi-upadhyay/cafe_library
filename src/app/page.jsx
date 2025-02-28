@@ -1,31 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
-import { Select, Option } from "@material-tailwind/react";
 import Image from "next/image";
-import { client } from "@/sanity/lib/client";
 import SearchBar from "@/components/SearchBar";
-import Menu from "@/components/Menu";
+import Contact from "@/components/Contact";
 import Category from "@/components/Category";
-import { useDispatch } from "react-redux";
-import { setFranchiseDetails } from "@/redux/slices/user";
+import Link from "next/link";
 
 export default function Home() {
-  const [franchises, setFranchises] = useState([]);
-
-  //Fetch franchises data from sanity
-  const fetchFranchiseData = async () => {
-    const res = await client.fetch(`*[_type == "franchiseType"]`);
-    setFranchises(res);
-  };
-
-  // Fetch franchise data
-  useEffect(() => {
-    fetchFranchiseData();
-  }, []);
-
-  const dispatch = useDispatch();
-
   return (
     <>
       <div className="min-h-[92vh] md:min-h-[94vh] lg:min-h-[91.5vh] flex flex-col gap-5 items-center justify-center">
@@ -38,10 +20,13 @@ export default function Home() {
               <br />
               Perfect Library
             </h1>
-            <button className="cursor-pointer group relative flex items-center gap-1.5 px-8 py-4 bg-black bg-opacity-80 text-[#f1f1f1] rounded-3xl hover:bg-opacity-70 transition font-semibold shadow-md ">
-              Start Renting
-              <FaArrowCircleRight className="text-xl" />
-            </button>
+            <Link href="/franchise">
+              <button className="cursor-pointer group relative flex items-center gap-1.5 px-8 py-4 bg-black bg-opacity-80 text-[#f1f1f1] rounded-3xl hover:bg-opacity-70 transition font-semibold shadow-md ">
+                Book a Service
+                <FaArrowCircleRight className="text-xl" />
+              </button>
+            </Link>
+            
           </div>
           {/* Right Section */}
           <div className="w-full  lg:w-1/2 flex items-center justify-center bg bg-gray-500 rounded-lg shadow-lg">
@@ -54,29 +39,14 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="w-full h-[55px] flex justify-center items-center gap-2 mt-8 flex-col md:flex-row ">
-          <SearchBar />
-          <div className="w-50">
-            <Select label="Select Location">
-              {franchises.map((franchise) => {
-                return (
-                  <Option
-                    key={franchise._id}
-                    onClick={() => {
-                      dispatch(setFranchiseDetails(franchise));
-                    }}
-                  >
-                    {franchise.name}
-                  </Option>
-                );
-              })}
-            </Select>
+          <div className="w-full h-[55px] flex justify-center items-center gap-2 mt-8 flex-col md:flex-row ">
+            <SearchBar />
           </div>
-        </div>
       </div>
       
       {/*<Menu />*/}
       <Category/>
+      <Contact/>
     </>
   );
 }

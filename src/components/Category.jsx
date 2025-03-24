@@ -8,10 +8,8 @@ const Category = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch unique categories
       const data = await client.fetch(`*[_type == "booksType"]{category}`);
       setCategories(data);
-      console.log(data);
     };
     fetchData();
   }, []);

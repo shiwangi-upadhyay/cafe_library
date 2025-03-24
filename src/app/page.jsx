@@ -43,7 +43,6 @@ export default function Home() {
             <SearchBar />
           </div>
       </div>
-      
       {/*<Menu />*/}
       <Category/>
       <Contact/>

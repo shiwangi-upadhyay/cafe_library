@@ -12,7 +12,8 @@ import {
   Button,
   Tooltip,
   ButtonGroup,
-  Select, Option,
+  Select,
+  Option,
 } from "@material-tailwind/react";
 
 import React from "react";
@@ -27,161 +28,162 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 
 const page = () => {
-    const { _id, name } = useSelector((state) => state.user.franchiseDetails);
-    const userData = useSelector((state) => state.user.userData);
-    const [duration, setDuration] = useState(null);
-    const { category } = useParams(); // Fetching the category from the URL
-    const [franchises, setFranchises] = useState([]);
+  const { _id, name } = useSelector((state) => state.user.franchiseDetails);
+  const userData = useSelector((state) => state.user.userData);
+  const [duration, setDuration] = useState(null);
+  const { category } = useParams(); // Fetching the category from the URL
+  const [franchises, setFranchises] = useState([]);
 
-    //Fetch franchises data from sanity
-    const fetchFranchiseData = async () => {
-        const res = await client.fetch(`*[_type == "franchiseType"]`);
-        setFranchises(res);
-        };
-    
-        // Fetch franchise data
-        useEffect(() => {
-        fetchFranchiseData();
-        }, []);
-    
-    const dispatch = useDispatch();
+  //Fetch franchises data from sanity
+  const fetchFranchiseData = async () => {
+    const res = await client.fetch(`*[_type == "franchiseType"]`);
+    setFranchises(res);
+  };
 
-    //   Testing the razorpay payment gateway
-    const handleRentBook = async (
-        amount,
-        bookTitle,
-        userEmail,
-        userName,
-        franchiseName,
-        duration
-        ) => {
-        console.log(duration);
+  // Fetch franchise data
+  useEffect(() => {
+    fetchFranchiseData();
+  }, []);
+
+  const dispatch = useDispatch();
+
+  //   Testing the razorpay payment gateway
+  const handleRentBook = async (
+    amount,
+    bookTitle,
+    userEmail,
+    userName,
+    franchiseName,
+    duration
+  ) => {
+    console.log(duration);
     const response = await axios.post("/api/users/razorpay", {
-            amount,
-            bookTitle,
-            userEmail,
-            userName,
-            franchiseName,
-            duration,
+      amount,
+      bookTitle,
+      userEmail,
+      userName,
+      franchiseName,
+      duration,
     });
     const order = response.data;
-        window.location.href = order.data.payment_link_url;
-    };
-    
-        // Fetching Products from sanity
-    const [products, setProducts] = useState([]);
-    const [open, setOpen] = React.useState(false);
-    
-    const handleOpen = () => setOpen(!open);
+    window.location.href = order.data.payment_link_url;
+  };
 
-    useEffect(() => {
-        if(!category) return;
+  // Fetching Products from sanity
+  const [products, setProducts] = useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(!open);
+
+  useEffect(() => {
+    if (!category) return;
 
     const fetchProducts = async () => {
-        const res = await client.fetch(`*[_type == "booksType" && category == $category]`, { category });
-        setProducts(res);
-        };
-        
-        fetchProducts();
-    }, [category]);
-    return (
-        <section className="p-8">
-            <div className="flex flex-col md:flex-row justify-center items-center gap-5 ">
-                    <h2 className="text-2xl font-bold   text-center">Books {category}</h2>
-                <div className="w-50 mb-5 lg:mb-0">
-                    <Select label="Select Location">
-                    {franchises.map((franchise) => {
-                        return (
-                        <Option
-                            key={franchise._id}
-                            onClick={() => {
-                            dispatch(setFranchiseDetails(franchise));
-                            }}
-                        >
-                            {franchise.name}
-                        </Option>
-                        );
-                    })}
-                    </Select>
-                </div>
-            
-            </div>
-            
+      const res = await client.fetch(
+        `*[_type == "booksType" && category == $category]`,
+        { category }
+      );
+      setProducts(res);
+    };
 
-            <div className="grid grid-cols-1 md:grid-cols-2  gap-4 ">
-            {products.map((card) => {
-                return (
-                <Card
-                    key={card._id}
-                    className="w-full max-w-[48rem] flex-row flex-wrap lg:flex-nowrap"
+    fetchProducts();
+  }, [category]);
+  return (
+    <section className="p-8">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-5 ">
+        <h2 className="text-2xl font-bold   text-center">Books {category}</h2>
+        <div className="w-50 mb-5 lg:mb-0">
+          <Select label="Select Location">
+            {franchises.map((franchise) => {
+              return (
+                <Option
+                  key={franchise._id}
+                  onClick={() => {
+                    dispatch(setFranchiseDetails(franchise));
+                  }}
                 >
-                    <CardHeader
-                    shadow={false}
-                    floated={false}
-                    className="m-0 w-full lg:w-2/5 shrink-0 rounded-lg"
+                  {franchise.name}
+                </Option>
+              );
+            })}
+          </Select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2  gap-4 ">
+        {products.map((card) => {
+          return (
+            <Card
+              key={card._id}
+              className="w-full max-w-[48rem] flex-row flex-wrap lg:flex-nowrap"
+            >
+              <CardHeader
+                shadow={false}
+                floated={false}
+                className="m-0 w-full lg:w-2/5 shrink-0 rounded-lg"
+              >
+                <Image
+                  width={500}
+                  height={500}
+                  src={urlFor(card.coverImage).url()}
+                  alt="card-image"
+                  className="h-full w-full object-cover"
+                />
+              </CardHeader>
+              <CardBody className=" flex flex-col justify-between p-4">
+                <div className="mb-3 flex items-center justify-between pr-3 lg:pr-1">
+                  <Typography
+                    variant="h6"
+                    color="gray"
+                    className="text-sm lg:text-base uppercase"
+                  >
+                    {card.category}
+                  </Typography>
+
+                  <Typography
+                    color="blue-gray"
+                    className="flex items-center gap-1.5 font-normal"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="-mt-0.5 h-5 w-5 text-yellow-700"
                     >
-                    <Image
-                        width={500}
-                        height={500}
-                        src={urlFor(card.coverImage).url()}
-                        alt="card-image"
-                        className="h-full w-full object-cover"
-                    />
-                    </CardHeader>
-                    <CardBody className=" flex flex-col justify-between p-4">
-                    <div className="mb-3 flex items-center justify-between pr-3 lg:pr-1">
-                        <Typography
-                        variant="h6"
-                        color="gray"
-                        className="text-sm lg:text-base uppercase"
-                        >
-                        {card.category}
-                        </Typography>
-    
-                        <Typography
-                        color="blue-gray"
-                        className="flex items-center gap-1.5 font-normal"
-                        >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            className="-mt-0.5 h-5 w-5 text-yellow-700"
-                        >
-                            <path
-                            fillRule="evenodd"
-                            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                            clipRule="evenodd"
-                            />
-                        </svg>
-                        {card.rating}
-                        </Typography>
-                    </div>
-    
-                    <Typography
-                        variant="h4"
-                        color="blue-gray"
-                        className="mb-2 text-lg lg:text-2xl font-semibold line-clamp-2"
-                    >
-                        {card.title}
-                    </Typography>
-                    <Typography
-                        color="gray"
-                        className="font-normal text-sm   lg:text-base line-clamp-3 mb-4"
-                    >
-                        {card.description}
-                    </Typography>
-                    <Typography
-                        variant="h5"
-                        color="blue-gray"
-                        className="font-semibold mt-2"
-                    >
-                        ₹{card.price}
-                    </Typography>
-                    {/* Borrow Count and Publish Year */}
-                    <div className="flex  justify-between flex-col lg:flex-row items-center mt-5">
-                        <div className="inline-flex flex-col items-center gap-2">
-                        {/*<Tooltip content={card.borrowCount}>
+                      <path
+                        fillRule="evenodd"
+                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    {card.rating}
+                  </Typography>
+                </div>
+
+                <Typography
+                  variant="h4"
+                  color="blue-gray"
+                  className="mb-2 text-lg lg:text-2xl font-semibold line-clamp-2"
+                >
+                  {card.title}
+                </Typography>
+                <Typography
+                  color="gray"
+                  className="font-normal text-sm   lg:text-base line-clamp-3 mb-4"
+                >
+                  {card.description}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  color="blue-gray"
+                  className="font-semibold mt-2"
+                >
+                  ₹{card.price}
+                </Typography>
+                {/* Borrow Count and Publish Year */}
+                <div className="flex  justify-between flex-col lg:flex-row items-center mt-5">
+                  <div className="inline-flex flex-col items-center gap-2">
+                    {/*<Tooltip content={card.borrowCount}>
                             <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -236,155 +238,155 @@ const page = () => {
                             </svg>
                             </span>
                         </Tooltip>*/}
-                        <ButtonGroup>
-                            <Tooltip content={card.borrowCount}>
-                            <Button>Count</Button>
-                            </Tooltip>
-                            <Tooltip content={card.publishedYear}>
-                            <Button>Year</Button>
-                            </Tooltip>
-                            <Tooltip
-                            content={
-                                card?.franchiseStock?.filter(
+                    <ButtonGroup>
+                      <Tooltip content={card.borrowCount}>
+                        <Button>Count</Button>
+                      </Tooltip>
+                      <Tooltip content={card.publishedYear}>
+                        <Button>Year</Button>
+                      </Tooltip>
+                      <Tooltip
+                        content={
+                          card?.franchiseStock?.filter(
+                            (item) => item.name._ref === _id
+                          )[0]?.stock === undefined
+                            ? "Please select your location first."
+                            : card?.franchiseStock?.filter(
                                 (item) => item.name._ref === _id
-                                )[0]?.stock === undefined
-                                ? "Please select your location first."
-                                : card?.franchiseStock?.filter(
-                                    (item) => item.name._ref === _id
-                                    )[0]?.stock
-                            }
-                            >
-                            <Button>Stock</Button>
-                            </Tooltip>
-                        </ButtonGroup>
-                        </div>
-                        <Button
-                        onClick={handleOpen}
-                        variant="text"
-                        className="flex items-center gap-2 pr-2 mt-4 lg:mt-0"
-                        >
-                        Rent Now
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            className="h-4 w-4"
-                        >
-                            <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                            />
-                        </svg>
-                        </Button>
-                        <Dialog
+                              )[0]?.stock
+                        }
+                      >
+                        <Button>Stock</Button>
+                      </Tooltip>
+                    </ButtonGroup>
+                  </div>
+                  <Button
+                    onClick={handleOpen}
+                    variant="text"
+                    className="flex items-center gap-2 pr-2 mt-4 lg:mt-0"
+                  >
+                    Rent Now
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      className="h-4 w-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </Button>
+                  <Dialog
+                    size="sm"
+                    open={open}
+                    handler={handleOpen}
+                    className="p-4"
+                  >
+                    <DialogHeader className="relative m-0 block">
+                      <Typography variant="h4" color="blue-gray">
+                        {card.title}
+                      </Typography>
+                      <Typography className="mt-1 font-normal text-gray-600">
+                        {card.category}
+                      </Typography>
+                      <IconButton
                         size="sm"
-                        open={open}
-                        handler={handleOpen}
-                        className="p-4"
-                        >
-                        <DialogHeader className="relative m-0 block">
-                            <Typography variant="h4" color="blue-gray">
-                            {card.title}
-                            </Typography>
-                            <Typography className="mt-1 font-normal text-gray-600">
-                            {card.category}
-                            </Typography>
-                            <IconButton
-                            size="sm"
-                            variant="text"
-                            className="!absolute right-3.5 top-3.5"
-                            onClick={handleOpen}
-                            >
-                            <XMarkIcon className="h-4 w-4 stroke-2" />
-                            </IconButton>
-                        </DialogHeader>
-                        <DialogBody>
-                            <div className="space-y-4">
-                            <div>
-                                <input
-                                onClick={() => setDuration(7)}
-                                type="radio"
-                                id="standard"
-                                name="hosting"
-                                value="standard"
-                                className="peer hidden"
-                                required
-                                />
-                                <label
-                                htmlFor="standard"
-                                className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
-                                >
-                                <div className="block">
-                                    <Typography className="font-normal text-gray-600">
-                                    Rent for 7 Days.{" "}
-                                    <strong className="text-gray-900">200</strong>
-                                    </Typography>
-                                </div>
-                                </label>
+                        variant="text"
+                        className="!absolute right-3.5 top-3.5"
+                        onClick={handleOpen}
+                      >
+                        <XMarkIcon className="h-4 w-4 stroke-2" />
+                      </IconButton>
+                    </DialogHeader>
+                    <DialogBody>
+                      <div className="space-y-4">
+                        <div>
+                          <input
+                            onClick={() => setDuration(7)}
+                            type="radio"
+                            id="standard"
+                            name="hosting"
+                            value="standard"
+                            className="peer hidden"
+                            required
+                          />
+                          <label
+                            htmlFor="standard"
+                            className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
+                          >
+                            <div className="block">
+                              <Typography className="font-normal text-gray-600">
+                                Rent for 7 Days.{" "}
+                                <strong className="text-gray-900">200</strong>
+                              </Typography>
                             </div>
-                            <div>
-                                <input
-                                onClick={() => setDuration(15)}
-                                type="radio"
-                                id="express"
-                                name="hosting"
-                                defaultChecked
-                                value="express"
-                                className="peer hidden"
-                                required
-                                />
-                                <label
-                                htmlFor="express"
-                                className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
-                                >
-                                <div className="block">
-                                    <Typography className="font-normal text-gray-600">
-                                    Rent for 15 Days.{" "}
-                                    <strong className="text-gray-900">200</strong>
-                                    </Typography>
-                                </div>
-                                </label>
+                          </label>
+                        </div>
+                        <div>
+                          <input
+                            onClick={() => setDuration(15)}
+                            type="radio"
+                            id="express"
+                            name="hosting"
+                            defaultChecked
+                            value="express"
+                            className="peer hidden"
+                            required
+                          />
+                          <label
+                            htmlFor="express"
+                            className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
+                          >
+                            <div className="block">
+                              <Typography className="font-normal text-gray-600">
+                                Rent for 15 Days.{" "}
+                                <strong className="text-gray-900">200</strong>
+                              </Typography>
                             </div>
-                            <div>
-                                <input
-                                onClick={() => setDuration(30)}
-                                type="radio"
-                                id="store"
-                                name="hosting"
-                                value="store"
-                                className="peer hidden"
-                                required
-                                />
-                                <label
-                                htmlFor="store"
-                                className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
-                                >
-                                <div className="block">
-                                    <Typography className="font-normal text-gray-600">
-                                    Rent for 1 Month.{" "}
-                                    <strong className="text-gray-900">250</strong>
-                                    </Typography>
-                                </div>
-                                </label>
+                          </label>
+                        </div>
+                        <div>
+                          <input
+                            onClick={() => setDuration(30)}
+                            type="radio"
+                            id="store"
+                            name="hosting"
+                            value="store"
+                            className="peer hidden"
+                            required
+                          />
+                          <label
+                            htmlFor="store"
+                            className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
+                          >
+                            <div className="block">
+                              <Typography className="font-normal text-gray-600">
+                                Rent for 1 Month.{" "}
+                                <strong className="text-gray-900">250</strong>
+                              </Typography>
                             </div>
-                            {/* Note Section (Updated) */}
-                            <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-4 rounded-md">
-                                <Typography className="font-medium text-yellow-800">
-                                Note:
-                                </Typography>
-                                <Typography className="text-gray-600">
-                                You will be required to pay the full price of the
-                                book as a security deposit. The full amount will be
-                                refunded when you return the book, after deducting
-                                the rent price.
-                                </Typography>
-                            </div>
-                            </div>
-                        </DialogBody>
-                        {/*
+                          </label>
+                        </div>
+                        {/* Note Section (Updated) */}
+                        <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-4 rounded-md">
+                          <Typography className="font-medium text-yellow-800">
+                            Note:
+                          </Typography>
+                          <Typography className="text-gray-600">
+                            You will be required to pay the full price of the
+                            book as a security deposit. The full amount will be
+                            refunded when you return the book, after deducting
+                            the rent price.
+                          </Typography>
+                        </div>
+                      </div>
+                    </DialogBody>
+                    {/*
                         <DialogFooter>
                             <Button
                             className="ml-auto"
@@ -403,15 +405,15 @@ const page = () => {
                             </Button>
                         </DialogFooter>
                         */}
-                        </Dialog>
-                    </div>
-                    </CardBody>
-                </Card>
-                );
-            })}
-            </div>
-        </section>
-    );
-}
+                  </Dialog>
+                </div>
+              </CardBody>
+            </Card>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
 
-export default page
+export default page;

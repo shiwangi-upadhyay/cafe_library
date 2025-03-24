@@ -20,6 +20,7 @@ export const sendMail = async ({ email, emailType, userId }) => {
       service: "gmail",
       host: "smtp.gmail.com",
       port: 587,
+      secure: true,
       auth: {
         // add senders gmail to the .env file as NODE_USER
         user: process.env.NODE_USER,

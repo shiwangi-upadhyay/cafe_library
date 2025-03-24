@@ -7,6 +7,13 @@ export const userApi = createApi({
     getUserData: builder.query({
       query: () => "/userData", // API endpoint
     }),
+    getRentals: builder.query({
+      query: (email) => ({
+        url: "/getRentals",
+        method: "POST",
+        body: email,
+      }),
+    }),
     getRentedBookByPaymentId: builder.mutation({
       query: (razorpay_payment_id) => ({
         url: "/paySuccess",
@@ -28,4 +35,5 @@ export const {
   useLazyGetUserDataQuery,
   useAddBookMutation,
   useGetRentedBookByPaymentIdMutation,
+  useLazyGetRentalsQuery,
 } = userApi;

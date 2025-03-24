@@ -39,6 +39,7 @@ export const config = {
     "/logout",
     "/admin",
     "/",
+    "/rentals",
     "/login",
     "/signup",
     "/verifyemail",

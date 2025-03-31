@@ -18,11 +18,22 @@ import { Navigation } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+
+import ReviewForm from '@/components/ReviewForm';
+import ReviewList from '@/components/ReviewList';
+import {React, useState} from "react";
+
 
 const page = () => {
 
   const pathname = usePathname();
+
+    const [reviews, setReviews] = useState([]);
+  
+    const handleReviewAdded = (newReview) => {
+      setReviews((prev) => [newReview, ...prev]);
+    };
+  
 
   const slides = [
     { id: 1, image: "/images/aboutbg.jpg", alt: "Surfer" },
@@ -118,6 +129,9 @@ const page = () => {
           ))}
         </Swiper>
       </div>
+
+      <ReviewForm onReviewAdded={handleReviewAdded} />
+      <ReviewList reviews={reviews} />
 
       <div className="text-center mt-6">
         <h3 className="text-xl font-semibold">Heather</h3>

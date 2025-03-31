@@ -6,6 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import Contact from "@/components/Contact";
 import Category from "@/components/Category";
 import Link from "next/link";
+import BookReadingCards from "@/components/BookReadingCards";
 
 export default function Home() {
   return (
@@ -45,6 +46,7 @@ export default function Home() {
       </div>
       {/*<Menu />*/}
       <Category/>
+      <BookReadingCards/>
       <Contact/>
     </>
   );

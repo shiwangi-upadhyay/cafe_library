@@ -130,9 +130,6 @@ const page = () => {
         </Swiper>
       </div>
 
-      <ReviewForm onReviewAdded={handleReviewAdded} />
-      <ReviewList reviews={reviews} />
-
       <div className="text-center mt-6">
         <h3 className="text-xl font-semibold">Heather</h3>
         <p className="text-sm text-gray-400">Mountain Biker</p>
@@ -145,6 +142,9 @@ const page = () => {
         </button>
       </div>
     </div>
+
+      <ReviewForm onReviewAdded={handleReviewAdded} />
+      <ReviewList reviews={reviews} />
 
       <div className="container mb-0 sm:mb-8  flex flex-col lg:flex-row items-center p-10 lg:px-32 mt-10 lg:mt-20">
         {/* Left Section */}

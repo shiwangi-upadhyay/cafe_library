@@ -1,5 +1,6 @@
-    import { useState } from "react";
-    import axios from "axios";
+"use client"
+import { useState } from "react";
+import axios from "axios";
 
     const ReviewForm = ({ onReviewAdded }) => {
     const [userName, setUserName] = useState("");

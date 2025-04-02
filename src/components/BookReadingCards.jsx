@@ -36,7 +36,7 @@ const BookReadingCards = () => {
         description:
             "Referral program to bring new readers and increase your rewards.",
         icon: <UserPlus className="h-6 w-6" />,
-bgGradient: "",
+        bgGradient: "from-[#347161] to-[#3a7b6d]",
         },
         {
         title: "List Books and Earn",

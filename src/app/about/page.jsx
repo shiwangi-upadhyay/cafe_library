@@ -9,11 +9,8 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const page = () => {
 
@@ -105,53 +102,70 @@ const page = () => {
           </div>
 
           {/* Team Section */}
-          <div className=" p-10 lg:px-32">
-            <h1 className="text-5xl font-bold mt-10">Meet our <br /> amazing team</h1>
-            <div className="flex flex-col lg:flex-row items-center justify-around gap-5 mt-20">
-            {/* 1st Card */}
-              <Card className="w-96">
-                <CardHeader floated={false} className="h-80">
-                  <img src="https://docs.material-tailwind.com/img/team-3.jpg" alt="profile-picture" />
-                </CardHeader>
-                <CardBody className="text-center">
-                  <Typography variant="h4" color="blue-gray" className="mb-2">
-                    Natalie Paisley
-                  </Typography>
-                  <Typography color="blue-gray" className="font-medium" textGradient>
-                    CEO / Co-Founder
-                  </Typography>
-                </CardBody>
-              </Card>
+          <div className="py-16 px-8 lg:px-32 bg-gray-50">
+            <div className="max-w-7xl mx-auto">
+              <h1 className="text-5xl font-bold mb-16 ">
+                Meet our <br /> <span className="text-gray-600">exceptional team</span>
+              </h1>
+              
+              <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
+                {/* 1st Card */}
+                <Card className="w-full max-w-xs lg:max-w-sm shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <CardHeader floated={false} className="h-72 overflow-hidden">
+                    <img 
+                      src="/images/aboutbg.jpg" 
+                      alt="Team member" 
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  </CardHeader>
+                  <CardBody className="text-center py-6">
+                    <Typography variant="h4" color="blue-gray" className="mb-2 font-serif">
+                      Claire Bennett
+                    </Typography>
+                    <Typography color="blue-gray" className="font-medium tracking-wider" textGradient>
+                      Creative Director
+                    </Typography>
+                  </CardBody>
+                </Card>
 
-              {/* 2nd Card */}
-              <Card className="w-96">
-                <CardHeader floated={false} className="h-80">
-                  <img src="https://docs.material-tailwind.com/img/team-3.jpg" alt="profile-picture" />
-                </CardHeader>
-                <CardBody className="text-center">
-                  <Typography variant="h4" color="blue-gray" className="mb-2">
-                    Natalie Paisley
-                  </Typography>
-                  <Typography color="blue-gray" className="font-medium" textGradient>
-                    CEO / Co-Founder
-                  </Typography>
-                </CardBody>
-              </Card>
+                {/* 2nd Card (Larger) */}
+                <Card className="w-full max-w-sm lg:max-w-md shadow-xl transform lg:-translate-y-4 border-b-4 border-indigo-500 z-10">
+                  <CardHeader floated={false} className="h-80 overflow-hidden">
+                    <img 
+                      src="/images/aboutbg.jpg" 
+                      alt="CEO profile" 
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  </CardHeader>
+                  <CardBody className="text-center py-8">
+                    <Typography variant="h3" color="blue-gray" className="mb-3 font-serif">
+                      Natalie Paisley
+                    </Typography>
+                    <Typography color="indigo" className="font-medium text-lg tracking-wider" textGradient>
+                      CEO & Founder
+                    </Typography>
+                  </CardBody>
+                </Card>
 
-              {/* 3rd Card */}
-              <Card className="w-96">
-                <CardHeader floated={false} className="h-80">
-                  <img src="https://docs.material-tailwind.com/img/team-3.jpg" alt="profile-picture" />
-                </CardHeader>
-                <CardBody className="text-center">
-                  <Typography variant="h4" color="blue-gray" className="mb-2">
-                    Natalie Paisley
-                  </Typography>
-                  <Typography color="blue-gray" className="font-medium" textGradient>
-                    CEO / Co-Founder
-                  </Typography>
-                </CardBody>
-              </Card>
+                {/* 3rd Card */}
+                <Card className="w-full max-w-xs lg:max-w-sm shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <CardHeader floated={false} className="h-72 overflow-hidden">
+                    <img 
+                      src="/images/aboutbg.jpg" 
+                      alt="Team member" 
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  </CardHeader>
+                  <CardBody className="text-center py-6">
+                    <Typography variant="h4" color="blue-gray" className="mb-2 font-serif">
+                      Michael Chen
+                    </Typography>
+                    <Typography color="blue-gray" className="font-medium tracking-wider" textGradient>
+                      Technology Lead
+                    </Typography>
+                  </CardBody>
+                </Card>
+              </div>
             </div>
           </div>
 
@@ -230,67 +244,6 @@ const page = () => {
               />
             </div>
           </div>
-
-        {/* Service Station 
-
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-5 p-6">
-          <div className="flex flex-col justify-center items-center">
-            <p>If you're looking for a specialist to <br /> build a meaningful book wall you <br /> can easily reach us by clicking <span className="text-green-800">here</span></p>
-            <p><span>2+</span>    YEARS OF EXPERIENCE</p>
-          </div>
-          <div></div>
-        </div>
-
-        {/* 
-        {/*Tesimonials Section 
-
-        <div className="w-full flex flex-col lg:flex-row gap-5 items-center p-6">
-          <div className="flex flex-col items-center justify-center">
-            <h2 className="text-3xl font-bold mb-2">Testimonial</h2>
-            <p className="text-gray-500 text-center max-w-lg mb-6">
-              We provide all the advantages that can simplify your financial and banking support without any further issues.
-            </p>
-          </div>
-          <div className="relative w-full max-w-3xl">
-            {/* Swiper Slider 
-            <Swiper
-              modules={[Navigation]}
-              spaceBetween={30}
-              slidesPerView={1}
-              navigation={{
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-              }}
-              className="w-full"
-            >
-              {testimonials.map((testimonial, index) => (
-                <SwiperSlide key={index} className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-                  <p className="text-lg italic">"{testimonial.text}"</p>
-                  <div className="mt-4 flex justify-center items-center">
-                    <img src={testimonial.image} alt={testimonial.name} className="w-12 h-12 rounded-full mr-3" />
-                    <div>
-                      <h4 className="font-bold">{testimonial.name}</h4>
-                      <p className="text-sm text-gray-500">{testimonial.role}</p>
-                    </div>
-                  </div>
-                  <div className="mt-2 text-yellow-500">
-                    {"⭐".repeat(testimonial.rating)}
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            
-
-            {/* Left & Right Navigation Buttons 
-            <button className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md">
-              <FaArrowLeft className="text-xl text-gray-700" />
-            </button>
-            <button className="swiper-button-next absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md">
-              <FaArrowRight className="text-xl text-gray-700" />
-            </button>
-          </div>
-        </div>*/}
-
     </div>
   );
 };

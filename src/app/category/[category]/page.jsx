@@ -26,6 +26,7 @@ import { setFranchiseDetails } from "@/redux/slices/user";
 import axios from "axios";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import SearchBar from "@/components/SearchBar";
 
 const page = () => {
   const { _id, name } = useSelector((state) => state.user.franchiseDetails);
@@ -90,6 +91,10 @@ const page = () => {
   }, [category]);
   return (
     <section className="p-8">
+      <div className="w-full h-[55px] flex justify-center items-center gap-2 my-4 flex-col md:flex-row ">
+        <SearchBar/>
+      </div>
+
       <div className="flex flex-col md:flex-row justify-center items-center gap-5 ">
         <h2 className="text-2xl font-bold   text-center">Books {category}</h2>
         <div className="w-50 mb-5 lg:mb-0">

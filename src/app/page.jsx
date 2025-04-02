@@ -41,7 +41,7 @@ export default function Home() {
           </div>
         </div>
           <div className="w-full h-[55px] flex justify-center items-center gap-2 mt-8 flex-col md:flex-row ">
-            <SearchBar />
+            <SearchBar/>
           </div>
       </div>
       {/*<Menu />*/}

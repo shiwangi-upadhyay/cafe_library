@@ -19,13 +19,13 @@ const ReviewForm = ({ onReviewAdded }) => {
     reader.onloadend = async () => {*/
       try {
         const res = await axios.post("/api/users/reviews/add", {
-            userName,
+            userName:userData.username,
             cafeName,
             userId: userData._id,
             review,
             //image: reader.result,
         });
-
+        console.log("Response:", res.data);
         onReviewAdded(res.data);
         setLoading(false);
 

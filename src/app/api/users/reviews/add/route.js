@@ -12,7 +12,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   await connect();
   try {
-    const { userName, review, cafeName, userId, productId, } = req.body;
+    const { userName, review, cafeName, userId } = await req.json();
     /*const uploadedResponse = await cloudinary.v2.uploader.upload(image, {
       folder: "reviews",
       width: 150,
@@ -23,7 +23,6 @@ export async function POST(req) {
       review,
       cafeName,
       userId,
-      productId,
       //image: uploadedResponse.secure_url,
     });
     await newReview.save();

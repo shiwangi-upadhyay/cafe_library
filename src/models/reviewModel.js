@@ -24,4 +24,5 @@ const reviewSchema = new mongoose.Schema({
       }
     });
 
-export default mongoose.models.review || mongoose.model('review', reviewSchema);
+const Review = mongoose.models.review || mongoose.model('review', reviewSchema);
+export default Review;

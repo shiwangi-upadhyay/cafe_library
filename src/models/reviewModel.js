@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
-    userName: {
+    userName:{
+      type:String,
+      required: true,
+    },
+    userId: {
         type: String,
         required: true,
       },
@@ -9,19 +13,20 @@ const reviewSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      description: {
+      review: {
         type: String,
         required: true,
         maxlength: 100,
       },
-      photoUrl: {
+      /*image: {
         type: String,
         required: true,
-      },
+      },*/
       createdAt: {
         type: Date,
         default: Date.now,
       }
     });
 
-export default mongoose.models.review || mongoose.model('review', reviewSchema);
+const Review = mongoose.models.review || mongoose.model('review', reviewSchema);
+export default Review;

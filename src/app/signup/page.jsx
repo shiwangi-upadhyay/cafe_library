@@ -25,12 +25,17 @@ const Page = () => {
       validationSchema: Schema,
       onSubmit: async (values, action) => {
         setLoading(true);
-        const res = await axios.post("/api/users/signup", values);
-        if (res.data.success) {
-          action.resetForm();
+        try {
+          const res = await axios.post("/api/users/signup", values);
+          if (res.data.success) {
+            action.resetForm();
+            setLoading(false);
+            toast.success(res.data.message);
+            router.push("/login");
+          }
+        } catch (error) {
           setLoading(false);
-          toast.success(res.data.message);
-          router.push("/login");
+          toast.error(error.response?.data?.error || "Something went wrong");
         }
       },
     });
@@ -131,6 +136,23 @@ const Page = () => {
                   fill="#0D0D0D"
                 />
               </svg>
+              </div>
+              <Typography variant="h6" color="blue-gray" className="-mb-3">
+                Referral Code (Optional)
+              </Typography>
+              <div className="relative">
+                <Input
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  name="referralCode"
+                  value={values.referralCode}
+                  size="lg"
+                  placeholder="Enter referral code"
+                  className="!border-t-blue-gray-200 focus:!border-t-gray-900"
+                  labelProps={{
+                    className: "before:content-none after:content-none",
+                  }}
+                />
               </div>
             </div>
             {!loading ? (

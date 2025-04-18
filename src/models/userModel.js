@@ -38,6 +38,19 @@ const userSchema = new mongoose.Schema({
           rentedAt: { type: Date, default: Date.now },
         },
       ],
+      referralCode: { 
+        type: String, 
+        unique: true, 
+      },
+      referredBy: { 
+        type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      referrals: [
+          {
+              referredUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+              membershipType: String,
+              earnings: { type: Number, default: 0 },
+          },
+      ],
       createdAt: {
         type: Date,
         default: Date.now,

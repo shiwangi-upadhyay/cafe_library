@@ -1,10 +1,29 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
+
+    const[query, setQuery] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault(); // Prevent the default form submission
+        if (onSearch) {
+            onSearch(query); // Call the search function with the query
+        }
+    };
+
+    const handleReset = () => {
+        setQuery(""); // Reset the search query
+        if (onSearch) {
+            onSearch(""); // Clear the search results
+        }
+    };
+
     return (
-    <form className="form relative min-w-[50vw]  "> 
-    <button className="absolute left-2 -translate-y-1/2 top-1/2 p-1 ">
+    <form className="form relative min-w-[50vw]
+    "
+    onSubmit={handleSubmit}> 
+    <button className="absolute left-2 -translate-y-1/2 top-1/2 p-1 " type='submit'>
         <div className='p-2  bg-black rounded-full flex justify-center items-center'>
         <svg 
         width="17"
@@ -31,14 +50,20 @@ const SearchBar = () => {
         placeholder="What are you looking for?"
         required=""
         type="text"
+        value = {query}
+        onChange={(e) => setQuery(e.target.value)}
+        onFocus={(e) => e.target.placeholder = ""}
     />
-    <button type="reset" className="absolute right-3 -translate-y-1/2 top-1/2 p-1">
+    <button type="reset"
+    onClick={handleReset}
+    className="absolute right-3 -translate-y-1/2 top-1/2 p-1">
         <svg
         xmlns="http://www.w3.org/2000/svg"
         className="w-5 h-5 text-gray-700"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
+
         >
         <path
             strokeLinecap="round"

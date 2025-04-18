@@ -391,7 +391,7 @@ const page = () => {
                         </div>
                       </div>
                     </DialogBody>
-                    {/*
+                    
                         <DialogFooter>
                             <Button
                             className="ml-auto"
@@ -409,7 +409,7 @@ const page = () => {
                             Proceed To Pay
                             </Button>
                         </DialogFooter>
-                        */}
+                        
                   </Dialog>
                 </div>
               </CardBody>

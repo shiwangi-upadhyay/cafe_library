@@ -8,7 +8,7 @@ connect();
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { username, email, password } = reqBody;
+    const { username, email, password, referralCode } = reqBody;
     //check if user already exists
     const user = await User.findOne({ email });
     if (user) {
@@ -22,6 +22,24 @@ export async function POST(request) {
       email,
       password: hashedPassword,
     });
+
+    // Handle referral code if provided
+    if (referralCode) {
+      const referrer = await User.findOne({ referralCode });
+      if (!referrer) {
+        return NextResponse.json({ error: "Invalid referral code" });
+      }
+      // Add the new user to the referrer's referrals
+      referrer.referrals.push({
+        referredUserId: newUser._id,
+        membershipType: null, // Membership will be added later
+        earnings: 0, // Initial earnings are 0
+      });
+      await referrer.save();
+      // Set the referrer for the new user
+      newUser.referredBy = referrer._id;
+    }
+
     const savedUser = await newUser.save();
     // send verification mail
     await sendMail({ email, emailType: "VERIFY", userId: savedUser._id });
@@ -30,6 +48,7 @@ export async function POST(request) {
       success: true,
     });
   } catch (error) {
+    console.error("Error during signup:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

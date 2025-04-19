@@ -12,7 +12,7 @@ import axios from "axios";
 const Page = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-    const [showPass, setShowPass] = useState(false);
+  const [showPass, setShowPass] = useState(false);
   // Form Handling using formik and yup.
   const form = useRef();
   const { values, handleChange, handleSubmit, errors, touched, handleBlur } =
@@ -21,6 +21,7 @@ const Page = () => {
         username: "",
         email: "",
         password: "",
+        referredCode: "",
       },
       validationSchema: Schema,
       onSubmit: async (values, action) => {
@@ -33,6 +34,7 @@ const Page = () => {
             toast.success(res.data.message);
             router.push("/login");
           }
+          console.log(res.data);
         } catch (error) {
           setLoading(false);
           toast.error(error.response?.data?.error || "Something went wrong");
@@ -122,20 +124,23 @@ const Page = () => {
                   </p>
                 )}
                 <svg
-                className="absolute top-2 right-2 cursor-pointer"
-                onClick={() => setShowPass(!showPass)}
-                width="25px"
-                height="25px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" fill="#0D0D0D" />
-                <path
-                  d="M21.894 11.553C19.736 7.236 15.904 5 12 5c-3.903 0-7.736 2.236-9.894 6.553a1 1 0 0 0 0 .894C4.264 16.764 8.096 19 12 19c3.903 0 7.736-2.236 9.894-6.553a1 1 0 0 0 0-.894zM12 17c-2.969 0-6.002-1.62-7.87-5C5.998 8.62 9.03 7 12 7c2.969 0 6.002 1.62 7.87 5-1.868 3.38-4.901 5-7.87 5z"
-                  fill="#0D0D0D"
-                />
-              </svg>
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => setShowPass(!showPass)}
+                  width="25px"
+                  height="25px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"
+                    fill="#0D0D0D"
+                  />
+                  <path
+                    d="M21.894 11.553C19.736 7.236 15.904 5 12 5c-3.903 0-7.736 2.236-9.894 6.553a1 1 0 0 0 0 .894C4.264 16.764 8.096 19 12 19c3.903 0 7.736-2.236 9.894-6.553a1 1 0 0 0 0-.894zM12 17c-2.969 0-6.002-1.62-7.87-5C5.998 8.62 9.03 7 12 7c2.969 0 6.002 1.62 7.87 5-1.868 3.38-4.901 5-7.87 5z"
+                    fill="#0D0D0D"
+                  />
+                </svg>
               </div>
               <Typography variant="h6" color="blue-gray" className="-mb-3">
                 Referral Code (Optional)
@@ -144,8 +149,8 @@ const Page = () => {
                 <Input
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  name="referralCode"
-                  value={values.referralCode}
+                  name="referredCode"
+                  value={values.referredCode}
                   size="lg"
                   placeholder="Enter referral code"
                   className="!border-t-blue-gray-200 focus:!border-t-gray-900"

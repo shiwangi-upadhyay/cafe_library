@@ -8,12 +8,17 @@ connect();
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { username, email, password, referralCode } = reqBody;
+    const { username, email, password, referredCode } = reqBody;
+    console.log("Request body:", reqBody);
     //check if user already exists
     const user = await User.findOne({ email });
     if (user) {
       return NextResponse.json({ error: "User already exists" });
     }
+    // Generate unique referral code of length 10 based on email
+    const referralCode = (
+      email + Math.random().toString(36).substring(2, 6)
+    ).toUpperCase();
     //hash password
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
@@ -21,28 +26,30 @@ export async function POST(request) {
       username,
       email,
       password: hashedPassword,
+      referralCode,
+      referredBy: referredCode,
     });
-
+    console.log("New user object:", newUser);
+    // ! update needed
+    const savedUser = await newUser.save();
     // Handle referral code if provided
-    if (referralCode) {
-      const referrer = await User.findOne({ referralCode });
+    if (referredCode) {
+      const referrer = await User.findOne({ referralCode:referredCode });
       if (!referrer) {
         return NextResponse.json({ error: "Invalid referral code" });
       }
+      console.log("Referrer found:", referrer);
       // Add the new user to the referrer's referrals
       referrer.referrals.push({
-        referredUserId: newUser._id,
+        referredUserId: savedUser._id,
         membershipType: null, // Membership will be added later
         earnings: 0, // Initial earnings are 0
       });
-      await referrer.save();
-      // Set the referrer for the new user
-      newUser.referredBy = referrer._id;
+      const saved=await referrer.save();
+      console.log("Referrer updated with new referral:", saved);
     }
-
-    const savedUser = await newUser.save();
-    // send verification mail
     await sendMail({ email, emailType: "VERIFY", userId: savedUser._id });
+    // send verification mail
     return NextResponse.json({
       message: "User created successfully",
       success: true,

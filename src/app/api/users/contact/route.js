@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export async function POST(req) {
   try {
-    const { email, subject, message } = await req.json();
+    const {formType, email, subject, message, name, contact, bookType, price, location } = await req.json();
 
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({
@@ -13,13 +13,35 @@ export async function POST(req) {
       },
     });
 
-    // Email options
-    const mailOptions = {
-      from: email,
-      to: "izzyupadhyay005@gmail.com", // Founder’s email
-      subject: `Contact Form: ${subject}`,
-      text: `From: ${email}\n\n${message}`,
-    };
+    let mailOptions;
+
+    if(formType  === "contact"){
+      mailOptions = {
+        from: email,
+        to: process.env.EMAIL_USER, // Your email
+        subject: `Contact Form: ${subject}`,
+        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      };
+    } else if (formType === "listBook") {
+      // List Book Form Email
+      mailOptions = {
+        from: email, // Sender email
+        to: "process.env.EMAIL_USER", // Admin email
+        subject: "New Book Listing Submission",
+        text: `
+          New book listing submission:
+          Name: ${name}
+          Contact: ${contact}
+          Book Type: ${bookType}
+          ${bookType === "Sell" ? `Price: ${price}` : ""}
+          Location: ${location}
+        `,
+      };
+    } else {
+      return new Response(JSON.stringify({ error: "Invalid form type" }), {
+        status: 400,
+      });
+    }
 
     // Send email
     await transporter.sendMail(mailOptions);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     BookOpen,
     DollarSign,
@@ -10,6 +10,14 @@ import {
 } from "lucide-react";
 
 const BookReadingCards = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        contact: "",
+        bookType: "Rent", // Default to "Rent"
+        price: "",
+        location: "",
+    });
     const cardData = [
         {
         title: "Earn by Reading",
@@ -61,6 +69,50 @@ const BookReadingCards = () => {
         },
     ];
 
+    // Handle form data changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+        const response = await fetch("/api/users/contact", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+            formType: "listBook",
+            ...formData,
+            }),
+        });
+
+        if (response.ok) {
+            alert("Form submitted successfully. An email has been sent to the admin.");
+            setIsModalOpen(false);
+            setFormData({
+            name: "",
+            contact: "",
+            bookType: "Rent",
+            price: "",
+            location: "",
+            });
+        } else {
+            alert("Failed to submit the form. Please try again.");
+        }
+        } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("An error occurred. Please try again later.");
+        }
+    };
+
     return (
         <div className="w-full p-8 bg-gray-50">
         <h2 className="text-3xl font-serif font-bold mb-8 text-center text-gray-800">
@@ -94,15 +146,126 @@ const BookReadingCards = () => {
                     </p>
 
                     <div className="mt-auto">
-                    <button className="px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded text-white text-sm font-medium transition-all duration-200">
+                    {card.title === "List Books and Earn" ? (
+                        <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded text-white text-sm font-medium transition-all duration-200"
+                        >
                         Learn More
-                    </button>
+                        </button>
+                    ) : (
+                        <button className="px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded text-white text-sm font-medium transition-all duration-200">
+                        Learn More
+                        </button>
+                    )}
                     </div>
                 </div>
                 </div>
             </div>
             ))}
         </div>
+        {/* Modal */}
+        {isModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                <h3 className="text-xl font-bold mb-4">List Your Book</h3>
+                <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                    <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+                    Name
+                    </label>
+                    <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-lg p-2"
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="contact" className="block text-gray-700 font-medium mb-2">
+                    Contact Number
+                    </label>
+                    <input
+                    type="text"
+                    id="contact"
+                    name="contact"
+                    value={formData.contact}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-lg p-2"
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="bookType" className="block text-gray-700 font-medium mb-2">
+                    Book Type
+                    </label>
+                    <select
+                    id="bookType"
+                    name="bookType"
+                    value={formData.bookType}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-lg p-2"
+                    >
+                    <option value="Rent">Rent</option>
+                    <option value="Sell">Sell</option>
+                    </select>
+                </div>
+
+                {formData.bookType === "Sell" && (
+                    <div className="mb-4">
+                    <label htmlFor="price" className="block text-gray-700 font-medium mb-2">
+                        Price
+                    </label>
+                    <input
+                        type="text"
+                        id="price"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded-lg p-2"
+                    />
+                    </div>
+                )}
+
+                <div className="mb-4">
+                    <label htmlFor="location" className="block text-gray-700 font-medium mb-2">
+                    Nearest Location
+                    </label>
+                    <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-lg p-2"
+                    />
+                </div>
+
+                <div className="flex justify-end">
+                    <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-4 py-2 bg-gray-200 rounded-lg mr-2"
+                    >
+                    Cancel
+                    </button>
+                    <button
+                    type="submit"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                    >
+                    Submit
+                    </button>
+                </div>
+                </form>
+            </div>
+            </div>
+        )}
         </div>
     );
 };

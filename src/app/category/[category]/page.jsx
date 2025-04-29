@@ -34,6 +34,7 @@ const page = () => {
   const [duration, setDuration] = useState(null);
   const { category } = useParams(); // Fetching the category from the URL
   const [franchises, setFranchises] = useState([]);
+  const [membershipPlans, setMembershipPlans] = useState([]);
 
   //Fetch franchises data from sanity
   const fetchFranchiseData = async () => {
@@ -41,8 +42,19 @@ const page = () => {
     setFranchises(res);
   };
 
+  // Fetch membership plans dynamically
+  const fetchMembershipPlans = async () => {
+    try {
+      const response = await axios.get("/api/users/membership");
+      setMembershipPlans(response.data.plans);
+    } catch (error) {
+      console.error("Error fetching membership plans:", error);
+    }
+  };
+
   // Fetch franchise data
   useEffect(() => {
+    fetchMembershipPlans();
     fetchFranchiseData();
   }, []);
 
@@ -310,73 +322,45 @@ const page = () => {
                     </DialogHeader>
                     <DialogBody>
                       <div className="space-y-4">
-                        <div>
-                          <input
-                            onClick={() => setDuration(7)}
-                            type="radio"
-                            id="standard"
-                            name="hosting"
-                            value="standard"
-                            className="peer hidden"
-                            required
-                          />
-                          <label
-                            htmlFor="standard"
-                            className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
-                          >
-                            <div className="block">
-                              <Typography className="font-normal text-gray-600">
-                                Rent for 7 Days.{" "}
-                                <strong className="text-gray-900">200</strong>
-                              </Typography>
-                            </div>
-                          </label>
-                        </div>
-                        <div>
-                          <input
-                            onClick={() => setDuration(15)}
-                            type="radio"
-                            id="express"
-                            name="hosting"
-                            defaultChecked
-                            value="express"
-                            className="peer hidden"
-                            required
-                          />
-                          <label
-                            htmlFor="express"
-                            className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
-                          >
-                            <div className="block">
-                              <Typography className="font-normal text-gray-600">
-                                Rent for 15 Days.{" "}
-                                <strong className="text-gray-900">200</strong>
-                              </Typography>
-                            </div>
-                          </label>
-                        </div>
-                        <div>
-                          <input
-                            onClick={() => setDuration(30)}
-                            type="radio"
-                            id="store"
-                            name="hosting"
-                            value="store"
-                            className="peer hidden"
-                            required
-                          />
-                          <label
-                            htmlFor="store"
-                            className="block w-full cursor-pointer rounded-lg border border-gray-300 p-4 text-gray-900 ring-1 ring-transparent peer-checked:border-gray-900 peer-checked:ring-gray-900"
-                          >
-                            <div className="block">
-                              <Typography className="font-normal text-gray-600">
-                                Rent for 1 Month.{" "}
-                                <strong className="text-gray-900">250</strong>
-                              </Typography>
-                            </div>
-                          </label>
-                        </div>
+                        {membershipPlans.map((plan) => {
+                          return (
+                            <Card
+                              key={plan._id}
+                              className="w-full max-w-[48rem] flex-row flex-wrap lg:flex-nowrap"
+                            >
+                              <CardBody className="p-4">
+                                <Typography
+                                  variant="h5"
+                                  color="blue-gray"
+                                  className="text-lg lg:text-xl font-bold"
+                                >
+                                  {plan.name} Membership
+                                </Typography>
+                                <Typography
+                                  color="gray"
+                                  className="font-normal text-sm lg:text-base my-2"
+                                >
+                                  Duration: {plan.duration} days
+                                </Typography>
+                                <Typography
+                                  variant="h6"
+                                  color="blue"
+                                  className="font-semibold text-lg lg:text-xl"
+                                >
+                                  Price: ₹{plan.price}
+                                </Typography>
+                                <Button
+                                  variant="outlined"
+                                  color="blue-gray"
+                                  onClick={() => setDuration(plan.duration)}
+                                  className="mt-4"
+                                >
+                                  Select Plan
+                                </Button>
+                              </CardBody>
+                            </Card>
+                          );
+                        })}
                         {/* Note Section (Updated) */}
                         <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mt-4 rounded-md">
                           <Typography className="font-medium text-yellow-800">
@@ -391,6 +375,7 @@ const page = () => {
                         </div>
                       </div>
                     </DialogBody>
+                    
                     
                         <DialogFooter>
                             <Button

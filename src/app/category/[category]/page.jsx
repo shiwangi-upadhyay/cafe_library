@@ -46,7 +46,7 @@ const page = () => {
   const fetchMembershipPlans = async () => {
     try {
       const response = await axios.get("/api/users/membership");
-      setMembershipPlans(response.data.plans);
+        setMembershipPlans(response.data.memberships);
     } catch (error) {
       console.error("Error fetching membership plans:", error);
     }

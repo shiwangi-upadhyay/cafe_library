@@ -17,8 +17,11 @@ export async function POST(request) {
     }
     // Generate unique referral code of length 10 based on email
     const referralCode = (
-      email + Math.random().toString(36).substring(2, 6)
-    ).toUpperCase();
+      email.split("@")[0].substring(0, 4) +         // First 4 chars of email
+      Math.random().toString(36).substring(2, 7) +  // 5 random characters
+      Date.now().toString(36).slice(-6)             // 6 timestamp-based characters
+    ).toUpperCase();                                // Final 15-char code in uppercase
+    
     //hash password
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
